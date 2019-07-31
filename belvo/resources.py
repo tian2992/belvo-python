@@ -24,7 +24,7 @@ class Resource:
 
 
 class Links(Resource):
-    endpoint = "/api/links"
+    endpoint = "/api/links/"
 
     def create(self, institution: str, username: str, password: str, token: str = None) -> Dict:
         data = {"institution": institution, "username": username, "password": password}
@@ -35,7 +35,7 @@ class Links(Resource):
 
 
 class Accounts(Resource):
-    endpoint = "/api/accounts"
+    endpoint = "/api/accounts/"
 
     def create(self, link_uuid: str, belvo_token: str):
         return self.session.post(
@@ -44,7 +44,7 @@ class Accounts(Resource):
 
 
 class Transactions(Resource):
-    endpoint = "/api/transactions"
+    endpoint = "/api/transactions/"
 
     def create(
         self,

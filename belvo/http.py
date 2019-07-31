@@ -44,7 +44,7 @@ class JWTSession:
         self._refresh_token = refresh
 
     def login(self, username: str, password: str) -> bool:
-        auth_url = f"{self.url}/api/token"
+        auth_url = f"{self.url}/api/token/"
         r = self.session.post(
             auth_url, data={"username": username, "password": password}, timeout=5
         )
@@ -85,7 +85,7 @@ class JWTSession:
         return r.json()
 
     def delete(self, endpoint: str, resource_id: str) -> bool:
-        url = f"{self.url}{endpoint}/{resource_id}"
+        url = f"{self.url}{endpoint}/{resource_id}/"
         r = self.session.delete(url, timeout=10)
         try:
             r.raise_for_status()
