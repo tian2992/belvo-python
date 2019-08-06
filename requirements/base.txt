@@ -1,0 +1,5 @@
+requests~=2.22
+cleo~=0.7
+prompt_toolkit==1.0.14
+pygments~=2.4
+PyInquirer~=1.0

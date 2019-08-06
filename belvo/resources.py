@@ -1,4 +1,4 @@
-from typing import TypeVar, Dict, Generator
+from typing import Dict, Generator, TypeVar
 
 JWTSession = TypeVar("JWTSession")
 
@@ -13,11 +13,15 @@ class Resource:
     def session(self) -> JWTSession:
         return self._session
 
-    def get(self, params: Dict = None) -> Generator:
-        if params is None:
-            params = {}
+    def create(self, *args, **kwargs) -> Dict:
+        raise NotImplementedError()
 
-        return self.session.get(self.endpoint, params=params)
+    def list(self, **kwargs) -> Generator:
+        endpoint = self.endpoint
+        return self.session.list(endpoint, params=kwargs)
+
+    def get(self, id: str, **kwargs) -> Dict:
+        return self.session.get(self.endpoint, id, params=kwargs)
 
     def delete(self, id: str) -> bool:
         return self.session.delete(self.endpoint, id)
@@ -63,3 +67,7 @@ class Transactions(Resource):
             data.update(account=account_uuid)
 
         return self.session.post(self.endpoint, data=data, timeout=60)
+
+
+class Institutions(Resource):
+    endpoint = "/api/institutions/"

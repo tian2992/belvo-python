@@ -2,7 +2,7 @@ import os
 
 from .exceptions import BelvoAPIException
 from .http import JWTSession
-from .resources import Links, Accounts, Transactions
+from .resources import Accounts, Institutions, Links, Transactions
 
 
 class Client:
@@ -14,11 +14,14 @@ class Client:
             raise BelvoAPIException("You need to provide a URL.")
 
         self.session = JWTSession(url)
-        self.session.login(username, password)
+
+        if not self.session.login(username, password):
+            raise BelvoAPIException("Login failed")
 
         self._links = Links(self.session)
         self._accounts = Accounts(self.session)
         self._transactions = Transactions(self.session)
+        self._institutions = Institutions(self.session)
 
     @property
     def Links(self):
@@ -31,3 +34,7 @@ class Client:
     @property
     def Transactions(self):
         return self._transactions
+
+    @property
+    def Institutions(self):
+        return self._institutions

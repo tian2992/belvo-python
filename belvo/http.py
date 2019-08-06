@@ -1,7 +1,7 @@
 import logging
-from typing import Dict, Generator, Union, List
+from typing import Dict, Generator, List, Union
 
-from requests import Session, HTTPError
+from requests import HTTPError, Session
 
 logger = logging.getLogger(__name__)
 
@@ -44,21 +44,20 @@ class JWTSession:
         self._refresh_token = refresh
 
     def login(self, username: str, password: str) -> bool:
-        auth_url = f"{self.url}/api/token/"
+        auth_url = "{}/api/token/".format(self.url)
         r = self.session.post(
             auth_url, data={"username": username, "password": password}, timeout=5
         )
         try:
             r.raise_for_status()
-        except HTTPError as exc:
-            logger.exception("Login failed.", exc_info=exc)
+        except HTTPError:
             return False
         tokens = r.json()
         self.set_tokens(**tokens)
-        self.session.headers.update({"Authorization": f"Bearer {self.access_token}"})
+        self.session.headers.update({"Authorization": "Bearer {}".format(self.access_token)})
         return True
 
-    def _get_page(self, url: str, params: Dict = None) -> Union[List, Dict]:
+    def _get(self, url: str, params: Dict = None) -> Union[List, Dict]:
         if params is None:
             params = {}
 
@@ -66,10 +65,14 @@ class JWTSession:
         r.raise_for_status()
         return r.json()
 
-    def get(self, endpoint: str, params: Dict = None) -> Generator:
-        url = f"{self.url}{endpoint}"
+    def get(self, endpoint: str, id: str, params: Dict = None) -> Dict:
+        url = "{}{}{}/".format(self.url, endpoint, id)
+        return self._get(url=url, params=params)
+
+    def list(self, endpoint: str, params: Dict = None) -> Generator:
+        url = "{}{}".format(self.url, endpoint)
         while True:
-            data = self._get_page(url, params=params)
+            data = self._get(url, params=params)
             for result in data["results"]:
                 yield result
 
@@ -80,12 +83,12 @@ class JWTSession:
             params = None
 
     def post(self, endpoint: str, data: Dict, *args, **kwargs) -> Union[List, Dict]:
-        url = f"{self.url}{endpoint}"
+        url = "{}{}".format(self.url, endpoint)
         r = self.session.post(url=url, data=data, *args, **kwargs)
         return r.json()
 
-    def delete(self, endpoint: str, resource_id: str) -> bool:
-        url = f"{self.url}{endpoint}/{resource_id}/"
+    def delete(self, endpoint: str, id: str) -> bool:
+        url = "{}{}{}/".format(self.url, endpoint, id)
         r = self.session.delete(url, timeout=10)
         try:
             r.raise_for_status()

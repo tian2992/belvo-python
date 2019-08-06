@@ -12,7 +12,7 @@ def fake_url():
 def jwt_session(responses, fake_url):
     responses.add(
         responses.POST,
-        f"{fake_url}/api/token/",
+        "{}/api/token/".format(fake_url),
         json={"access": "123456-so-fake", "refresh": "654321-also-fake"},
         status=200,
     )
