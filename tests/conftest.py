@@ -18,6 +18,6 @@ def jwt_session(responses, fake_url):
     )
 
     session = JWTSession(fake_url)
-    session.login(username="monty", password="python")
+    session.login(key_id="monty", secret="python")
 
     yield session

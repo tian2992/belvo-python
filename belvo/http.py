@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 class JWTSession:
     def __init__(self, url: str) -> None:
         self._url = url
-        self._username = None
-        self._password = None
+        self._key_id = None
+        self._secret = None
         self._access_token = None
         self._refresh_token = None
         self._session = Session()
@@ -20,8 +20,8 @@ class JWTSession:
         return self._url
 
     @property
-    def username(self) -> str:
-        return self._username
+    def key_id(self) -> str:
+        return self._key_id
 
     @property
     def session(self) -> Session:
@@ -43,11 +43,9 @@ class JWTSession:
         self._access_token = access
         self._refresh_token = refresh
 
-    def login(self, username: str, password: str) -> bool:
+    def login(self, key_id: str, secret: str) -> bool:
         auth_url = "{}/api/token/".format(self.url)
-        r = self.session.post(
-            auth_url, data={"username": username, "password": password}, timeout=5
-        )
+        r = self.session.post(auth_url, data={"id": key_id, "secret": secret}, timeout=5)
         try:
             r.raise_for_status()
         except HTTPError:

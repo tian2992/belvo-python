@@ -6,7 +6,7 @@ from .resources import Accounts, Institutions, Links, Transactions
 
 
 class Client:
-    def __init__(self, username: str, password: str, url: str = None):
+    def __init__(self, key_id: str, secret: str, url: str = None):
         if url is None:
             url = os.getenv("BELVO_API_URL")
 
@@ -15,7 +15,7 @@ class Client:
 
         self.session = JWTSession(url)
 
-        if not self.session.login(username, password):
+        if not self.session.login(key_id, secret):
             raise BelvoAPIException("Login failed")
 
         self._links = Links(self.session)

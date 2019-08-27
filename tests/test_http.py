@@ -21,7 +21,7 @@ def test_login_sets_authorization_header(responses, fake_url):
     )
 
     session = JWTSession(fake_url)
-    session.login(username="monty", password="python")
+    session.login(key_id="monty", secret="python")
 
     assert session.headers["Authorization"] == "Bearer 123456-so-fake"
 
@@ -31,7 +31,7 @@ def test_login_returns_false_when_bad_response(wrong_http_code, responses, fake_
     responses.add(responses.POST, "{}/api/token/".format(fake_url), json={}, status=wrong_http_code)
 
     session = JWTSession(fake_url)
-    result = session.login(username="monty", password="python")
+    result = session.login(key_id="monty", secret="python")
 
     assert not result
 
