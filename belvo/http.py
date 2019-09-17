@@ -85,6 +85,11 @@ class JWTSession:
         r = self.session.post(url=url, data=data, *args, **kwargs)
         return r.json()
 
+    def patch(self, endpoint: str, data: Dict, **kwargs) -> Dict:
+        url = "{}{}".format(self.url, endpoint)
+        r = self.session.patch(url=url, data=data, **kwargs)
+        return r.json()
+
     def delete(self, endpoint: str, id: str) -> bool:
         url = "{}{}{}/".format(self.url, endpoint, id)
         r = self.session.delete(url, timeout=10)

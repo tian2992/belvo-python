@@ -26,14 +26,30 @@ class Resource:
     def delete(self, id: str) -> bool:
         return self.session.delete(self.endpoint, id)
 
+    def resume(self, session: str, token: str, *, link: str = None, **kwargs) -> Dict:
+        data = {"session": session, "token": token, "link": link}
+        return self.session.patch(self.endpoint, data=data, **kwargs)
+
 
 class Links(Resource):
     endpoint = "/api/links/"
 
-    def create(self, institution: str, username: str, password: str, token: str = None) -> Dict:
+    def create(
+        self,
+        institution: str,
+        username: str,
+        password: str,
+        *,
+        token: str = None,
+        secret: str = None
+    ) -> Dict:
         data = {"institution": institution, "username": username, "password": password}
+
         if token:
             data.update(token=token)
+
+        if secret:
+            data.update(secret=secret)
 
         return self.session.post(self.endpoint, data)
 
@@ -41,33 +57,30 @@ class Links(Resource):
 class Accounts(Resource):
     endpoint = "/api/accounts/"
 
-    def create(self, link_uuid: str, belvo_token: str):
-        return self.session.post(
-            self.endpoint, data={"link": link_uuid, "belvo_token": belvo_token}, timeout=60
-        )
+    def create(self, link: str, **kwargs):
+        return self.session.post(self.endpoint, data={"link": link}, **kwargs)
 
 
 class Transactions(Resource):
     endpoint = "/api/transactions/"
 
-    def create(
-        self,
-        link_uuid: str,
-        belvo_token: str,
-        date_from: str,
-        date_to: str,
-        account_uuid: str = None,
-    ):
-        data = {"link": link_uuid, "belvo_token": belvo_token, "date_from": date_from}
+    def create(self, link: str, date_from: str, date_to: str, *, account: str = None, **kwargs):
+        data = {"link": link, "date_from": date_from}
 
         if date_to:
             data.update(date_to=date_to)
 
-        if account_uuid:
-            data.update(account=account_uuid)
+        if account:
+            data.update(account=account)
 
-        return self.session.post(self.endpoint, data=data, timeout=60)
+        return self.session.post(self.endpoint, data=data, **kwargs)
 
 
 class Institutions(Resource):
     endpoint = "/api/institutions/"
+
+    def delete(self, id: str) -> bool:
+        raise NotImplementedError()
+
+    def resume(self, session: str, token: str, *, link: str = None, **kwargs) -> Dict:
+        raise NotImplementedError()
