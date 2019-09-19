@@ -57,14 +57,28 @@ class Links(Resource):
 class Accounts(Resource):
     endpoint = "/api/accounts/"
 
-    def create(self, link: str, **kwargs):
-        return self.session.post(self.endpoint, data={"link": link}, **kwargs)
+    def create(self, link: str, *, secret: str = None, **kwargs):
+        data = {"link": link}
+
+        if secret:
+            data.update(secret=secret)
+
+        return self.session.post(self.endpoint, data=data, **kwargs)
 
 
 class Transactions(Resource):
     endpoint = "/api/transactions/"
 
-    def create(self, link: str, date_from: str, date_to: str, *, account: str = None, **kwargs):
+    def create(
+        self,
+        link: str,
+        date_from: str,
+        date_to: str,
+        *,
+        account: str = None,
+        secret: str = None,
+        **kwargs
+    ):
         data = {"link": link, "date_from": date_from}
 
         if date_to:
@@ -72,6 +86,9 @@ class Transactions(Resource):
 
         if account:
             data.update(account=account)
+
+        if secret:
+            data.update(secret=secret)
 
         return self.session.post(self.endpoint, data=data, **kwargs)
 
@@ -84,3 +101,15 @@ class Institutions(Resource):
 
     def resume(self, session: str, token: str, *, link: str = None, **kwargs) -> Dict:
         raise NotImplementedError()
+
+
+class Owner(Resource):
+    endpoint = "/api/owners/"
+
+    def create(self, link: str, *, secret: str = None, **kwargs):
+        data = {"link": link}
+
+        if secret:
+            data.update(secret=secret)
+
+        return self.session.post(self.endpoint, data=data, **kwargs)
