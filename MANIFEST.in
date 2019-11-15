@@ -1,13 +1,13 @@
 include LICENSE
 include README.md
-include requirements/base.txt
-recursive-include docs *
+exclude Makefile
+exclude *.toml
+exclude *.cfg
+exclude *.sh
+exclude *.yml
+exclude docs
+recursive-include requirements *.txt
+recursive-exclude docs *.md
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
-
-# added by check_manifest.py
-include *.sh
-include *.toml
-include .isort.cfg
-include Makefile
-recursive-include requirements *.txt
+recursive-exclude site *

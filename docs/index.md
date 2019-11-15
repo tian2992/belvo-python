@@ -1,15 +1,13 @@
-# Belvo Python SDK
+# Introduction
 
-**Documentation**: <https://belvo-python.github.io>
+Bank connectivity simplified.
 
-**Developers portal**: <https://developers.belvo.co> 
+Belvo's Python SDK enables you to make use of Belvo API to connect to all major 
+banks in Mexico.
+---
 
-.. comment: split here
-
-## :clipboard: Requirements
-* Python 3.6+
-
-## :rocket: Getting started
+## Quickstart
+Requirements: Python 3.6+
 
 Install using `pip`:
 ```
