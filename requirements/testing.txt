@@ -4,3 +4,4 @@ pytest-cov~=2.7
 pytest-responses~=0.4.0
 check-manifest~=0.39
 docutils~=0.15
+freezegun~=0.3

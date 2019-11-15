@@ -1,10 +1,11 @@
-from typing import Dict, Generator, TypeVar
+from datetime import date
+from typing import Dict, Generator, List, Union
 
-JWTSession = TypeVar("JWTSession")
+from belvo.http import JWTSession
 
 
 class Resource:
-    endpoint = None
+    endpoint: str
 
     def __init__(self, session: JWTSession) -> None:
         self._session = session
@@ -12,9 +13,6 @@ class Resource:
     @property
     def session(self) -> JWTSession:
         return self._session
-
-    def create(self, *args, **kwargs) -> Dict:
-        raise NotImplementedError()
 
     def list(self, **kwargs) -> Generator:
         endpoint = self.endpoint
@@ -26,8 +24,15 @@ class Resource:
     def delete(self, id: str) -> bool:
         return self.session.delete(self.endpoint, id)
 
-    def resume(self, session: str, token: str, *, link: str = None, **kwargs) -> Dict:
-        data = {"session": session, "token": token, "link": link}
+    def resume(
+        self, session: str, token: str, *, link: str = None, **kwargs
+    ) -> Union[List[Dict], Dict]:
+
+        data = {"session": session, "token": token}
+
+        if link is not None:
+            data.update(link=link)
+
         return self.session.patch(self.endpoint, data=data, **kwargs)
 
 
@@ -41,27 +46,33 @@ class Links(Resource):
         password: str,
         *,
         token: str = None,
-        secret: str = None
-    ) -> Dict:
+        encryption_key: str = None
+    ) -> Union[List[Dict], Dict]:
+
         data = {"institution": institution, "username": username, "password": password}
 
         if token:
             data.update(token=token)
 
-        if secret:
-            data.update(secret=secret)
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data)
+        return self.session.post(self.endpoint, data=data)
 
 
 class Accounts(Resource):
     endpoint = "/api/accounts/"
 
-    def create(self, link: str, *, secret: str = None, **kwargs):
+    def create(
+        self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+    ) -> Union[List[Dict], Dict]:
+
         data = {"link": link}
 
-        if secret:
-            data.update(secret=secret)
+        if token:
+            data.update(token=token)
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
 
         return self.session.post(self.endpoint, data=data, **kwargs)
 
@@ -73,22 +84,25 @@ class Transactions(Resource):
         self,
         link: str,
         date_from: str,
-        date_to: str,
         *,
+        date_to: str = None,
         account: str = None,
-        secret: str = None,
-        **kwargs
-    ):
-        data = {"link": link, "date_from": date_from}
+        token: str = None,
+        encryption_key: str = None,
+        **kwargs: str
+    ) -> Union[List[Dict], Dict]:
 
-        if date_to:
-            data.update(date_to=date_to)
+        if date_to is None:
+            date_to = date.today().isoformat()
+
+        data = {"link": link, "date_from": date_from, "date_to": date_to}
 
         if account:
             data.update(account=account)
-
-        if secret:
-            data.update(secret=secret)
+        if token:
+            data.update(token=token)
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
 
         return self.session.post(self.endpoint, data=data, **kwargs)
 
@@ -99,17 +113,22 @@ class Institutions(Resource):
     def delete(self, id: str) -> bool:
         raise NotImplementedError()
 
-    def resume(self, session: str, token: str, *, link: str = None, **kwargs) -> Dict:
+    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
         raise NotImplementedError()
 
 
-class Owner(Resource):
+class Owners(Resource):
     endpoint = "/api/owners/"
 
-    def create(self, link: str, *, secret: str = None, **kwargs):
+    def create(
+        self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+    ) -> Union[List[Dict], Dict]:
+
         data = {"link": link}
 
-        if secret:
-            data.update(secret=secret)
+        if token:
+            data.update(token=token)
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
 
         return self.session.post(self.endpoint, data=data, **kwargs)

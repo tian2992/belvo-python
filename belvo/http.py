@@ -3,25 +3,30 @@ from typing import Dict, Generator, List, Union
 
 from requests import HTTPError, Session
 
+from belvo import __version__
+
 logger = logging.getLogger(__name__)
 
 
 class JWTSession:
+    _secret_key_id: str
+    _secret_key_password: str
+    _access_token: str
+    _refresh_token: str
+    _url: str
+
     def __init__(self, url: str) -> None:
         self._url = url
-        self._key_id = None
-        self._secret = None
-        self._access_token = None
-        self._refresh_token = None
         self._session = Session()
+        self._session.headers.update({"User-Agent": f"belvo-python ({__version__})"})
 
     @property
-    def url(self) -> str:
+    def url(self) -> Union[str, None]:
         return self._url
 
     @property
-    def key_id(self) -> str:
-        return self._key_id
+    def key_id(self) -> Union[str, None]:
+        return self._secret_key_id
 
     @property
     def session(self) -> Session:
@@ -29,23 +34,25 @@ class JWTSession:
 
     @property
     def headers(self) -> Dict:
-        return self.session.headers
+        return self.session.headers  # type: ignore
 
     @property
-    def access_token(self) -> str:
+    def access_token(self) -> Union[str, None]:
         return self._access_token
 
     @property
-    def refresh_token(self) -> str:
+    def refresh_token(self) -> Union[str, None]:
         return self._refresh_token
 
     def set_tokens(self, access: str, refresh: str) -> None:
         self._access_token = access
         self._refresh_token = refresh
 
-    def login(self, key_id: str, secret: str) -> bool:
+    def login(self, secret_key_id: str, secret_key_password: str, timeout: int = 5) -> bool:
         auth_url = "{}/api/token/".format(self.url)
-        r = self.session.post(auth_url, data={"id": key_id, "secret": secret}, timeout=5)
+        r = self.session.post(
+            auth_url, data={"id": secret_key_id, "password": secret_key_password}, timeout=timeout
+        )
         try:
             r.raise_for_status()
         except HTTPError:
@@ -55,11 +62,11 @@ class JWTSession:
         self.session.headers.update({"Authorization": "Bearer {}".format(self.access_token)})
         return True
 
-    def _get(self, url: str, params: Dict = None) -> Union[List, Dict]:
+    def _get(self, url: str, params: Dict = None, timeout: int = 5) -> Dict:
         if params is None:
             params = {}
 
-        r = self.session.get(url=url, params=params, timeout=10)
+        r = self.session.get(url=url, params=params, timeout=timeout)
         r.raise_for_status()
         return r.json()
 
@@ -82,17 +89,17 @@ class JWTSession:
 
     def post(self, endpoint: str, data: Dict, *args, **kwargs) -> Union[List, Dict]:
         url = "{}{}".format(self.url, endpoint)
-        r = self.session.post(url=url, data=data, *args, **kwargs)
+        r = self.session.post(url, data=data, **kwargs)
         return r.json()
 
-    def patch(self, endpoint: str, data: Dict, **kwargs) -> Dict:
+    def patch(self, endpoint: str, data: Dict, **kwargs) -> Union[List[Dict], Dict]:
         url = "{}{}".format(self.url, endpoint)
         r = self.session.patch(url=url, data=data, **kwargs)
         return r.json()
 
-    def delete(self, endpoint: str, id: str) -> bool:
+    def delete(self, endpoint: str, id: str, timeout: int = 5) -> bool:
         url = "{}{}{}/".format(self.url, endpoint, id)
-        r = self.session.delete(url, timeout=10)
+        r = self.session.delete(url, timeout=timeout)
         try:
             r.raise_for_status()
         except HTTPError:

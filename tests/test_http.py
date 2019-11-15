@@ -1,5 +1,6 @@
 import pytest
 
+from belvo import __version__
 from belvo.http import JWTSession
 
 
@@ -21,7 +22,7 @@ def test_login_sets_authorization_header(responses, fake_url):
     )
 
     session = JWTSession(fake_url)
-    session.login(key_id="monty", secret="python")
+    session.login(secret_key_id="monty", secret_key_password="python")
 
     assert session.headers["Authorization"] == "Bearer 123456-so-fake"
 
@@ -31,7 +32,7 @@ def test_login_returns_false_when_bad_response(wrong_http_code, responses, fake_
     responses.add(responses.POST, "{}/api/token/".format(fake_url), json={}, status=wrong_http_code)
 
     session = JWTSession(fake_url)
-    result = session.login(key_id="monty", secret="python")
+    result = session.login(secret_key_id="monty", secret_key_password="python")
 
     assert not result
 
@@ -75,3 +76,17 @@ def test_get_yields_all_results_when_response_contains_next_page(responses, fake
         "nine",
         "ten",
     ]
+
+
+def test_login_set_correct_user_agent(responses, fake_url):
+    responses.add(
+        responses.POST,
+        "{}/api/token/".format(fake_url),
+        json={"access": "123456-so-fake", "refresh": "654321-also-fake"},
+        status=200,
+    )
+
+    session = JWTSession(fake_url)
+    session.login(secret_key_id="monty", secret_key_password="python")
+
+    assert session.headers["User-Agent"] == f"belvo-python ({__version__})"

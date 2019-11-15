@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 if [[ "$1" = "yes" ]]
 then
@@ -9,4 +9,6 @@ then
 else
     isort --check-only -df -rc .
     black --check .
+    mypy .
+    flake8 .
 fi

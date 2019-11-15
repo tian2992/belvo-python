@@ -4,7 +4,7 @@ set -e
 
 if [[ "$1" != "" ]]
 then
-    pytest -k $1 tests
+    pytest -k $1 .
 else
-    pytest tests
+    pytest .
 fi
