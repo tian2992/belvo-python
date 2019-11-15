@@ -8,8 +8,14 @@ help:  ## Shows this help message
 
 .PHONY: test
 test: ## Run all or specific tests. Arguments: name=NAME-OF-TEST will run a specific test
-	./run-tests.sh $(name)
+	./scripts/run-tests.sh $(name)
 
 .PHONY: linting
 linting: ## Check of fix code linting using black and isort. Arguments: fix=yes will force changes
-	./run-linting.sh $(fix)
+	./scripts/run-linting.sh $(fix)
+
+##@ 🚀 Releasing
+
+.PHONY: new-version
+new-version: ## Bump version and add commit message. Arguments: type=major|minor|patch
+	./scripts/bump-version.sh $(type)
