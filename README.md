@@ -1,6 +1,6 @@
 # Belvo Python SDK
 
-**Documentation**: <https://belvo-python.github.io>
+**Documentation**: <https://belvo-finance.github.io/belvo-python/>
 
 **Developers portal**: <https://developers.belvo.co> 
 
