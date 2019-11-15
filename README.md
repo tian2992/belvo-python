@@ -4,8 +4,6 @@
 
 **Developers portal**: <https://developers.belvo.co> 
 
-.. comment: split here
-
 ## :clipboard: Requirements
 * Python 3.6+
 
