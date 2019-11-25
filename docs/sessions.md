@@ -60,3 +60,4 @@ these resources are available **only** if you provide valid credentials.
 * Accounts
 * Transactions
 * Owners
+* Invoices

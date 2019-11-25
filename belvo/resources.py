@@ -46,10 +46,16 @@ class Links(Resource):
         password: str,
         *,
         token: str = None,
-        encryption_key: str = None
+        encryption_key: str = None,
+        save_data: bool = True,
     ) -> Union[List[Dict], Dict]:
 
-        data = {"institution": institution, "username": username, "password": password}
+        data = {
+            "institution": institution,
+            "username": username,
+            "password": password,
+            "save_data": save_data,
+        }
 
         if token:
             data.update(token=token)
@@ -64,10 +70,16 @@ class Accounts(Resource):
     endpoint = "/api/accounts/"
 
     def create(
-        self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+        self,
+        link: str,
+        *,
+        token: str = None,
+        encryption_key: str = None,
+        save_data: bool = True,
+        **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
-        data = {"link": link}
+        data = {"link": link, "save_data": save_data}
 
         if token:
             data.update(token=token)
@@ -89,13 +101,14 @@ class Transactions(Resource):
         account: str = None,
         token: str = None,
         encryption_key: str = None,
-        **kwargs: str
+        save_data: bool = True,
+        **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
         if date_to is None:
             date_to = date.today().isoformat()
 
-        data = {"link": link, "date_from": date_from, "date_to": date_to}
+        data = {"link": link, "date_from": date_from, "date_to": date_to, "save_data": save_data}
 
         if account:
             data.update(account=account)
@@ -121,10 +134,16 @@ class Owners(Resource):
     endpoint = "/api/owners/"
 
     def create(
-        self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+        self,
+        link: str,
+        *,
+        token: str = None,
+        encryption_key: str = None,
+        save_data: bool = True,
+        **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
-        data = {"link": link}
+        data = {"link": link, "save_data": save_data}
 
         if token:
             data.update(token=token)
@@ -132,3 +151,38 @@ class Owners(Resource):
             data.update(encryption_key=encryption_key)
 
         return self.session.post(self.endpoint, data=data, **kwargs)
+
+
+class Invoices(Resource):
+    endpoint = "/api/invoices/"
+
+    def create(
+        self,
+        link: str,
+        date_from: str,
+        date_to: str,
+        type_: str,
+        *,
+        encryption_key: str = None,
+        save_data: bool = True,
+        **kwargs: str,
+    ) -> Union[List[Dict], Dict]:
+
+        data = {
+            "link": link,
+            "date_from": date_from,
+            "date_to": date_to,
+            "type": type_,
+            "save_data": save_data,
+        }
+
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
+
+        return self.session.post(self.endpoint, data=data, **kwargs)
+
+    def get(self, id: str, **kwargs) -> Dict:
+        raise NotImplementedError()
+
+    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
+        raise NotImplementedError()

@@ -2,7 +2,7 @@ import os
 
 from .exceptions import BelvoAPIException
 from .http import JWTSession
-from .resources import Accounts, Institutions, Links, Owners, Transactions
+from .resources import Accounts, Institutions, Invoices, Links, Owners, Transactions
 
 
 class Client:
@@ -23,6 +23,7 @@ class Client:
         self._transactions = Transactions(self.session)
         self._institutions = Institutions(self.session)
         self._owners = Owners(self.session)
+        self._invoices = Invoices(self.session)
 
     @property
     def Links(self):
@@ -43,3 +44,7 @@ class Client:
     @property
     def Owners(self):
         return self._owners
+
+    @property
+    def Invoices(self):
+        return self._invoices

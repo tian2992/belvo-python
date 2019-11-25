@@ -396,3 +396,83 @@ owners = client.owners.list(
 
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
+
+## Invoices
+List of invoices issued for a given account
+
+### Fetching invoices
+To fetch invoices you will make use of the `.create()` method, the process will
+retrieve all invoices available from the institution. You **must** 
+provide a `Link`, a date range defined by `date_from` and `date_to` and invoice 
+`type`. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    date_from: str,
+    date_to: str,
+    type_: str,
+    *,
+    encryption_key: str = None,
+    save_data: bool = True,
+    **kwargs: str,
+) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+# Fetch invoices for a Link
+invoices = client.Invoices.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-07-01",
+    "2019-07-31",
+    "INFLOW"
+)
+
+# Fetch invoices for a Link that was created with a custom encryption key
+invoices = client.Invoices.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-07-01",
+    "2019-07-31",
+    "INFLOW",
+    encryption_key="your-encryption-key"
+)
+```
+
+### Deleting invoices
+A `Invoice` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(invoice: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.Invoices.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all invoices
+invoices = client.Invoices.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
