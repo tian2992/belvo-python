@@ -181,8 +181,5 @@ class Invoices(Resource):
 
         return self.session.post(self.endpoint, data=data, **kwargs)
 
-    def get(self, id: str, **kwargs) -> Dict:
-        raise NotImplementedError()
-
     def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
         raise NotImplementedError()

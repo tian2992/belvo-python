@@ -172,7 +172,7 @@ def test_invoices_create(jwt_session):
     )
 
 
-@pytest.mark.parametrize("method", ["get", "resume"])
+@pytest.mark.parametrize("method", ["resume"])
 def test_invoices_raises_not_implemented(method, jwt_session):
     invoices = Invoices(jwt_session)
     with pytest.raises(NotImplementedError):
