@@ -61,3 +61,4 @@ these resources are available **only** if you provide valid credentials.
 * Transactions
 * Owners
 * Invoices
+* TaxReturns

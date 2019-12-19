@@ -24,7 +24,8 @@ def test_client_will_raise_exception_when_login_has_failed():
 
 @pytest.mark.usefixtures("jwt_token_response")
 @pytest.mark.parametrize(
-    "resource_name", ["Accounts", "Links", "Transactions", "Owners", "Institutions", "Invoices"]
+    "resource_name",
+    ["Accounts", "Links", "Transactions", "Owners", "Institutions", "Invoices", "TaxReturns"],
 )
 def test_client_resources_uses_same_session_as_client(resource_name):
     c = Client(secret_key_id="a", secret_key_password="b", url="http://fake.url")

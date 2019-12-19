@@ -3,7 +3,15 @@ from unittest.mock import MagicMock
 import pytest
 from freezegun import freeze_time
 
-from belvo.resources import Accounts, Institutions, Invoices, Links, Owners, Transactions
+from belvo.resources import (
+    Accounts,
+    Institutions,
+    Invoices,
+    Links,
+    Owners,
+    TaxReturns,
+    Transactions,
+)
 
 
 def test_links_create_sends_token_if_given(jwt_session):
@@ -184,9 +192,9 @@ def test_invoices_raises_not_implemented(method, jwt_session):
     ("method", "params"), [("resume", {"fake-token", "fake-session"}), ("delete", {"fake-token"})]
 )
 def test_institutions_raises_not_implemented(method, params, jwt_session):
-    invoices = Institutions(jwt_session)
+    institutions = Institutions(jwt_session)
     with pytest.raises(NotImplementedError):
-        func = getattr(invoices, method)
+        func = getattr(institutions, method)
         assert func(*params)
 
 
@@ -198,3 +206,28 @@ def test_account_resume(jwt_session):
     accounts.session.patch.assert_called_with(
         "/api/accounts/", data={"session": "fake-session", "token": "fake-token"}
     )
+
+
+def test_tax_returns_create(jwt_session):
+    tax_returns = TaxReturns(jwt_session)
+    tax_returns.session.post = MagicMock()
+    tax_returns.create("fake-link-uuid", 2019, 2019, attach_pdf=True)
+
+    tax_returns.session.post.assert_called_with(
+        "/api/tax-returns/",
+        data={
+            "link": "fake-link-uuid",
+            "year_from": 2019,
+            "year_to": 2019,
+            "attach_pdf": True,
+            "save_data": True,
+        },
+    )
+
+
+@pytest.mark.parametrize("method", ["resume"])
+def test_tax_returns_raises_not_implemented(method, jwt_session):
+    tax_returns = TaxReturns(jwt_session)
+    with pytest.raises(NotImplementedError):
+        func = getattr(tax_returns, method)
+        assert func("fake-id", token="fake-token")

@@ -183,3 +183,38 @@ class Invoices(Resource):
 
     def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
         raise NotImplementedError()
+
+
+class TaxReturns(Resource):
+    endpoint = "/api/tax-returns/"
+
+    def create(
+        self,
+        link: str,
+        year_from: str,
+        year_to: str,
+        *,
+        attach_pdf: bool = False,
+        encryption_key: str = None,
+        save_data: bool = True,
+        **kwargs: str,
+    ) -> Union[List[Dict], Dict]:
+
+        if year_to is None:
+            year_to = date.today().year
+
+        data = {
+            "link": link,
+            "year_from": year_from,
+            "year_to": year_to,
+            "attach_pdf": attach_pdf,
+            "save_data": save_data,
+        }
+
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
+
+        return self.session.post(self.endpoint, data=data, **kwargs)
+
+    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
+        raise NotImplementedError()

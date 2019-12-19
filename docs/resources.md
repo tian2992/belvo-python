@@ -476,3 +476,80 @@ invoices = client.Invoices.list()
 
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
+
+## Tax Returns
+List of tax returns for a given account
+
+### Fetching tax returns
+To fetch tax returns you will make use of the `.create()` method, the process will
+retrieve all tax returns available from the institution. You **must** 
+provide a `Link`, a year range defined by `year_from` and `year_to`. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    year_from: str,
+    year_to: str,
+    *,
+    attach_pdf: bool = False,
+    encryption_key: str = None,
+    save_data: bool = True,
+    **kwargs: str,
+) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+# Fetch tax returns for a Link
+tax_returns = client.TaxReturns.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019",
+    "2019"
+)
+
+# Fetch tax returns for a Link that was created with a custom encryption key
+tax_returns = client.TaxReturns.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019",
+    "2019",
+    encryption_key="your-encryption-key"
+)
+```
+
+### Deleting tax returns
+A `TaxReturn` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(tax_return: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.TaxReturns.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all tax returns
+tax_returns = client.TaxReturns.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
