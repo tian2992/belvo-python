@@ -1,17 +1,17 @@
 from datetime import date
 from typing import Dict, Generator, List, Union
 
-from belvo.http import JWTSession
+from belvo.http import APISession
 
 
 class Resource:
     endpoint: str
 
-    def __init__(self, session: JWTSession) -> None:
+    def __init__(self, session: APISession) -> None:
         self._session = session
 
     @property
-    def session(self) -> JWTSession:
+    def session(self) -> APISession:
         return self._session
 
     def list(self, **kwargs) -> Generator:

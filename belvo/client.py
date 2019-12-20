@@ -1,7 +1,7 @@
 import os
 
 from .exceptions import BelvoAPIException
-from .http import JWTSession
+from .http import APISession
 from .resources import Accounts, Institutions, Invoices, Links, Owners, TaxReturns, Transactions
 
 
@@ -13,7 +13,7 @@ class Client:
         if not url:
             raise BelvoAPIException("You need to provide a URL.")
 
-        self.session = JWTSession(url)
+        self.session = APISession(url)
 
         if not self.session.login(secret_key_id, secret_key_password):
             raise BelvoAPIException("Login failed.")

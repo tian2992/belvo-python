@@ -14,8 +14,8 @@ from belvo.resources import (
 )
 
 
-def test_links_create_sends_token_if_given(jwt_session):
-    link = Links(jwt_session)
+def test_links_create_sends_token_if_given(api_session):
+    link = Links(api_session)
     link.session.post = MagicMock()
 
     link.create("fake-bank", "fake-user", "fake-password", token="fake-token")
@@ -32,8 +32,8 @@ def test_links_create_sends_token_if_given(jwt_session):
     )
 
 
-def test_links_create_sends_encryption_key_if_given(jwt_session):
-    links = Links(jwt_session)
+def test_links_create_sends_encryption_key_if_given(api_session):
+    links = Links(api_session)
     links.session.post = MagicMock()
     links.create("fake-bank", "fake-user", "fake-password", encryption_key="fake-key")
 
@@ -50,8 +50,8 @@ def test_links_create_sends_encryption_key_if_given(jwt_session):
 
 
 @freeze_time("2019-02-28T12:00:00Z")
-def test_transactions_create_sets_current_time_if_no_date_given(jwt_session):
-    transactions = Transactions(jwt_session)
+def test_transactions_create_sets_current_time_if_no_date_given(api_session):
+    transactions = Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create("fake-link-uuid", "2019-01-01", save_data=False)
 
@@ -66,8 +66,8 @@ def test_transactions_create_sets_current_time_if_no_date_given(jwt_session):
     )
 
 
-def test_transactions_create_sends_token_if_given(jwt_session):
-    transactions = Transactions(jwt_session)
+def test_transactions_create_sends_token_if_given(api_session):
+    transactions = Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", token="fake-token")
 
@@ -83,8 +83,8 @@ def test_transactions_create_sends_token_if_given(jwt_session):
     )
 
 
-def test_transactions_create_sends_account_if_given(jwt_session):
-    transactions = Transactions(jwt_session)
+def test_transactions_create_sends_account_if_given(api_session):
+    transactions = Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create(
         "fake-link-uuid", "2019-01-01", date_to="2019-02-28", account="fake-account-id"
@@ -102,8 +102,8 @@ def test_transactions_create_sends_account_if_given(jwt_session):
     )
 
 
-def test_transactions_create_sends_encryption_key_if_given(jwt_session):
-    transactions = Transactions(jwt_session)
+def test_transactions_create_sends_encryption_key_if_given(api_session):
+    transactions = Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create(
         "fake-link-uuid", "2019-01-01", date_to="2019-02-28", encryption_key="fake-key"
@@ -121,8 +121,8 @@ def test_transactions_create_sends_encryption_key_if_given(jwt_session):
     )
 
 
-def test_accounts_create_sends_encryption_key_if_given(jwt_session):
-    accounts = Accounts(jwt_session)
+def test_accounts_create_sends_encryption_key_if_given(api_session):
+    accounts = Accounts(api_session)
     accounts.session.post = MagicMock()
     accounts.create("fake-link-uuid", encryption_key="fake-key")
 
@@ -132,8 +132,8 @@ def test_accounts_create_sends_encryption_key_if_given(jwt_session):
     )
 
 
-def test_accounts_create_token_if_given(jwt_session):
-    accounts = Accounts(jwt_session)
+def test_accounts_create_token_if_given(api_session):
+    accounts = Accounts(api_session)
     accounts.session.post = MagicMock()
     accounts.create("fake-link-uuid", token="fake-token")
 
@@ -142,8 +142,8 @@ def test_accounts_create_token_if_given(jwt_session):
     )
 
 
-def test_owners_create_sends_encryption_key_if_given(jwt_session):
-    owners = Owners(jwt_session)
+def test_owners_create_sends_encryption_key_if_given(api_session):
+    owners = Owners(api_session)
     owners.session.post = MagicMock()
     owners.create("fake-link-uuid", encryption_key="fake-key")
 
@@ -153,8 +153,8 @@ def test_owners_create_sends_encryption_key_if_given(jwt_session):
     )
 
 
-def test_owners_create_token_if_given(jwt_session):
-    owners = Owners(jwt_session)
+def test_owners_create_token_if_given(api_session):
+    owners = Owners(api_session)
     owners.session.post = MagicMock()
     owners.create("fake-link-uuid", token="fake-token")
 
@@ -163,8 +163,8 @@ def test_owners_create_token_if_given(jwt_session):
     )
 
 
-def test_invoices_create(jwt_session):
-    invoices = Invoices(jwt_session)
+def test_invoices_create(api_session):
+    invoices = Invoices(api_session)
     invoices.session.post = MagicMock()
     invoices.create("fake-link-uuid", "2019-10-01", "2019-11-30", "INFLOW")
 
@@ -181,8 +181,8 @@ def test_invoices_create(jwt_session):
 
 
 @pytest.mark.parametrize("method", ["resume"])
-def test_invoices_raises_not_implemented(method, jwt_session):
-    invoices = Invoices(jwt_session)
+def test_invoices_raises_not_implemented(method, api_session):
+    invoices = Invoices(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(invoices, method)
         assert func("fake-id", token="fake-token")
@@ -191,15 +191,15 @@ def test_invoices_raises_not_implemented(method, jwt_session):
 @pytest.mark.parametrize(
     ("method", "params"), [("resume", {"fake-token", "fake-session"}), ("delete", {"fake-token"})]
 )
-def test_institutions_raises_not_implemented(method, params, jwt_session):
-    institutions = Institutions(jwt_session)
+def test_institutions_raises_not_implemented(method, params, api_session):
+    institutions = Institutions(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(institutions, method)
         assert func(*params)
 
 
-def test_account_resume(jwt_session):
-    accounts = Accounts(jwt_session)
+def test_account_resume(api_session):
+    accounts = Accounts(api_session)
     accounts.session.patch = MagicMock()
     accounts.resume("fake-session", "fake-token")
 
@@ -208,8 +208,8 @@ def test_account_resume(jwt_session):
     )
 
 
-def test_tax_returns_create(jwt_session):
-    tax_returns = TaxReturns(jwt_session)
+def test_tax_returns_create(api_session):
+    tax_returns = TaxReturns(api_session)
     tax_returns.session.post = MagicMock()
     tax_returns.create("fake-link-uuid", 2019, 2019, attach_pdf=True)
 
@@ -226,8 +226,8 @@ def test_tax_returns_create(jwt_session):
 
 
 @pytest.mark.parametrize("method", ["resume"])
-def test_tax_returns_raises_not_implemented(method, jwt_session):
-    tax_returns = TaxReturns(jwt_session)
+def test_tax_returns_raises_not_implemented(method, api_session):
+    tax_returns = TaxReturns(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(tax_returns, method)
         assert func("fake-id", token="fake-token")

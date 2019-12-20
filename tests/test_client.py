@@ -22,7 +22,7 @@ def test_client_will_raise_exception_when_login_has_failed():
     assert str(exc.value) == "Login failed."
 
 
-@pytest.mark.usefixtures("jwt_token_response")
+@pytest.mark.usefixtures("authorized_response")
 @pytest.mark.parametrize(
     "resource_name",
     ["Accounts", "Links", "Transactions", "Owners", "Institutions", "Invoices", "TaxReturns"],
@@ -33,10 +33,10 @@ def test_client_resources_uses_same_session_as_client(resource_name):
     assert c.session is getattr(c, resource_name).session
 
 
-def test_client_passes_params_as_querystring_when_given(jwt_session):
-    jwt_session.session.get = MagicMock()
-    jwt_session.get("/api/fake-endpoint/", "fake-id", params={"foo": "bar"})
+def test_client_passes_params_as_querystring_when_given(api_session):
+    api_session.session.get = MagicMock()
+    api_session.get("/api/fake-endpoint/", "fake-id", params={"foo": "bar"})
 
-    jwt_session.session.get.assert_called_with(
+    api_session.session.get.assert_called_with(
         params={"foo": "bar"}, timeout=5, url="http://fake.url/api/fake-endpoint/fake-id/"
     )

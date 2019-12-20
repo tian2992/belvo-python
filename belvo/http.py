@@ -8,11 +8,9 @@ from belvo import __version__
 logger = logging.getLogger(__name__)
 
 
-class JWTSession:
+class APISession:
     _secret_key_id: str
     _secret_key_password: str
-    _access_token: str
-    _refresh_token: str
     _url: str
 
     def __init__(self, url: str) -> None:
@@ -36,30 +34,16 @@ class JWTSession:
     def headers(self) -> Dict:
         return self.session.headers  # type: ignore
 
-    @property
-    def access_token(self) -> Union[str, None]:
-        return self._access_token
-
-    @property
-    def refresh_token(self) -> Union[str, None]:
-        return self._refresh_token
-
-    def set_tokens(self, access: str, refresh: str) -> None:
-        self._access_token = access
-        self._refresh_token = refresh
-
     def login(self, secret_key_id: str, secret_key_password: str, timeout: int = 5) -> bool:
-        auth_url = "{}/api/token/".format(self.url)
-        r = self.session.post(
-            auth_url, data={"id": secret_key_id, "password": secret_key_password}, timeout=timeout
-        )
+        base_url = "{}/api/".format(self.url)
+        self._secret_key_id = secret_key_id
+        self._session.auth = (secret_key_id, secret_key_password)
+
         try:
+            r = self.session.get(base_url, timeout=timeout)
             r.raise_for_status()
         except HTTPError:
             return False
-        tokens = r.json()
-        self.set_tokens(**tokens)
-        self.session.headers.update({"Authorization": "Bearer {}".format(self.access_token)})
         return True
 
     def _get(self, url: str, params: Dict = None, timeout: int = 5) -> Dict:
