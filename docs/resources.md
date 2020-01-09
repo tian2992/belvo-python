@@ -122,6 +122,32 @@ links = client.Links.list(institution__in="hsbc,banamex,santander")
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
 
+### Updating an existing Link
+
+A `Link` is persisted into our database when you register it, if you want you can 
+update it with new data, like a password change.
+
+**Method:** 
+
+```python
+def update(
+    self,
+    link: str,
+    password: str,
+    *,
+    password2: str = None,
+    token: str = None,
+    encryption_key: str = None,
+    save_data: bool = True,
+) -> Union[List[Dict], Dict]:
+```
+
+**Example:**
+```python
+# Update a Link's password
+link = client.Links.update("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c", "a-password")
+```
+
 ## Accounts
 Bank accounts available for a link.
 

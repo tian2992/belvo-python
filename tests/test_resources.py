@@ -231,3 +231,28 @@ def test_tax_returns_raises_not_implemented(method, api_session):
     with pytest.raises(NotImplementedError):
         func = getattr(tax_returns, method)
         assert func("fake-id", token="fake-token")
+
+
+def test_links_update_password(api_session):
+    link = Links(api_session)
+    link.session.put = MagicMock()
+
+    link.update(
+        "fake-link-uuid",
+        "fake-password",
+        password2="fake-pw2",
+        token="fake-token",
+        encryption_key="fake-enc-key",
+    )
+
+    link.session.put.assert_called_with(
+        "/api/links/",
+        id="fake-link-uuid",
+        data={
+            "password": "fake-password",
+            "save_data": True,
+            "password2": "fake-pw2",
+            "token": "fake-token",
+            "encryption_key": "fake-enc-key",
+        },
+    )

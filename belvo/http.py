@@ -58,6 +58,11 @@ class APISession:
         url = "{}{}{}/".format(self.url, endpoint, id)
         return self._get(url=url, params=params)
 
+    def put(self, endpoint: str, id: str, data: Dict, **kwargs) -> Union[List[Dict], Dict]:
+        url = "{}{}{}/".format(self.url, endpoint, id)
+        r = self.session.put(url=url, data=data, **kwargs)
+        return r.json()
+
     def list(self, endpoint: str, params: Dict = None) -> Generator:
         url = "{}{}".format(self.url, endpoint)
         while True:

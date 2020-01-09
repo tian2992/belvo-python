@@ -65,6 +65,30 @@ class Links(Resource):
 
         return self.session.post(self.endpoint, data=data)
 
+    def update(
+        self,
+        link: str,
+        password: str,
+        *,
+        password2: str = None,
+        token: str = None,
+        encryption_key: str = None,
+        save_data: bool = True,
+    ) -> Union[List[Dict], Dict]:
+
+        data = {"password": password, "save_data": save_data}
+
+        if password2:
+            data.update(password2=password2)
+
+        if token:
+            data.update(token=token)
+
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
+
+        return self.session.put(self.endpoint, id=link, data=data)
+
 
 class Accounts(Resource):
     endpoint = "/api/accounts/"
