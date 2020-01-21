@@ -4,6 +4,7 @@ from typing import Dict, Generator, List, Union
 from requests import HTTPError, Session
 
 from belvo import __version__
+from belvo.exceptions import RequestError
 
 logger = logging.getLogger(__name__)
 
@@ -58,9 +59,18 @@ class APISession:
         url = "{}{}{}/".format(self.url, endpoint, id)
         return self._get(url=url, params=params)
 
-    def put(self, endpoint: str, id: str, data: Dict, **kwargs) -> Union[List[Dict], Dict]:
+    def put(
+        self, endpoint: str, id: str, data: Dict, raise_exception: bool = False, **kwargs
+    ) -> Union[List[Dict], Dict]:
         url = "{}{}{}/".format(self.url, endpoint, id)
         r = self.session.put(url=url, data=data, **kwargs)
+
+        if raise_exception:
+            try:
+                r.raise_for_status()
+            except HTTPError:
+                raise RequestError(r.status_code, r.json())
+
         return r.json()
 
     def list(self, endpoint: str, params: Dict = None) -> Generator:
@@ -76,14 +86,32 @@ class APISession:
             url = data["next"]
             params = None
 
-    def post(self, endpoint: str, data: Dict, *args, **kwargs) -> Union[List, Dict]:
+    def post(
+        self, endpoint: str, data: Dict, raise_exception: bool = False, *args, **kwargs
+    ) -> Union[List, Dict]:
         url = "{}{}".format(self.url, endpoint)
         r = self.session.post(url, data=data, **kwargs)
+
+        if raise_exception:
+            try:
+                r.raise_for_status()
+            except HTTPError:
+                raise RequestError(r.status_code, r.json())
+
         return r.json()
 
-    def patch(self, endpoint: str, data: Dict, **kwargs) -> Union[List[Dict], Dict]:
+    def patch(
+        self, endpoint: str, data: Dict, raise_exception: bool = False, **kwargs
+    ) -> Union[List[Dict], Dict]:
         url = "{}{}".format(self.url, endpoint)
         r = self.session.patch(url=url, data=data, **kwargs)
+
+        if raise_exception:
+            try:
+                r.raise_for_status()
+            except HTTPError:
+                raise RequestError(r.status_code, r.json())
+
         return r.json()
 
     def delete(self, endpoint: str, id: str, timeout: int = 5) -> bool:

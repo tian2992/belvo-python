@@ -1,6 +1,7 @@
 import pytest
 
 from belvo import __version__
+from belvo.exceptions import RequestError
 from belvo.http import APISession
 
 
@@ -71,3 +72,93 @@ def test_login_sets_key_id(responses, fake_url):
     session.login(secret_key_id="monty", secret_key_password="python")
 
     assert session.key_id == "monty"
+
+
+def test_post_raises_exception_on_error_if_raises_exception_is_true(responses, fake_url):
+    responses.add(
+        responses.POST,
+        "{}/fake-resource/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    with pytest.raises(RequestError) as exc:
+        session.post("/fake-resource/", {}, raise_exception=True)
+
+    assert exc.value.status_code == 400
+    assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+
+
+def test_post_doesnt_raise_exception_on_error_by_default(responses, fake_url):
+    responses.add(
+        responses.POST,
+        "{}/fake-resource/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    result = session.post("/fake-resource/", {})
+
+    assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+
+
+def test_put_raises_exception_on_error_if_raises_exception_is_true(responses, fake_url):
+    responses.add(
+        responses.PUT,
+        "{}/fake-resource/some-id/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    with pytest.raises(RequestError) as exc:
+        session.put("/fake-resource/", "some-id", {}, raise_exception=True)
+
+    assert exc.value.status_code == 400
+    assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+
+
+def test_put_doesnt_raise_exception_on_error_by_default(responses, fake_url):
+    responses.add(
+        responses.PUT,
+        "{}/fake-resource/some-id/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    result = session.put("/fake-resource/", "some-id", {})
+
+    assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+
+
+def test_patch_raises_exception_on_error_if_raises_exception_is_true(responses, fake_url):
+    responses.add(
+        responses.PATCH,
+        "{}/fake-resource/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    with pytest.raises(RequestError) as exc:
+        session.patch("/fake-resource/", {}, raise_exception=True)
+
+    assert exc.value.status_code == 400
+    assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+
+
+def test_patch_doesnt_raise_exception_on_error_by_default(responses, fake_url):
+    responses.add(
+        responses.PATCH,
+        "{}/fake-resource/".format(fake_url),
+        json=[{"code": "unsupported", "message": "Wait, that's illegal!"}],
+        status=400,
+    )
+    session = APISession(fake_url)
+
+    result = session.patch("/fake-resource/", {})
+
+    assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]

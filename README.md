@@ -1,15 +1,16 @@
 <h1 align="center">Belvo Python SDK</h1>
 <p align="center">
-    <img alt="PyPI" src="https://img.shields.io/pypi/v/belvo-python?style=for-the-badge">
-    <img alt="Travis (.com)" src="https://img.shields.io/travis/com/belvo-finance/belvo-python?style=for-the-badge">
-    <img alt="Coveralls github" src="https://img.shields.io/coveralls/github/belvo-finance/belvo-python?style=for-the-badge">
+    <a href="https://pypi.org/project/belvo-python/"><img alt="PyPI" src="https://img.shields.io/pypi/v/belvo-python?style=for-the-badge"></a>
+    <a href="https://pypistats.org/packages/belvo-python"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/belvo-python?style=for-the-badge"></a>
+    <a href="https://travis-ci.com/belvo-finance/belvo-python"><img alt="Travis (.com)" src="https://img.shields.io/travis/com/belvo-finance/belvo-python/master?style=for-the-badge"></a>
+    <a href="https://coveralls.io/github/belvo-finance/belvo-python"><img alt="Coveralls github" src="https://img.shields.io/coveralls/github/belvo-finance/belvo-python?style=for-the-badge"></a>
 </p>
 <p align="center"><a href="https://developers.belvo.co">Developers portal</a> | <a href="https://belvo-finance.github.io/belvo-python">Documentation</a></p>
 
-## :clipboard: Requirements
+## 📋 Requirements
 * Python 3.6+
 
-## :rocket: Getting started
+## 🚀 Getting started
 
 Install using `pip`:
 ```
@@ -41,6 +42,6 @@ for account in client.Accounts.list(type="checking"):
     pprint(account)
 ```
 
-## :busts_in_silhouette: Contributing
+## 👥 Contributing
 **Anyone** can do something to make `belvo-python` better, so contributors are always welcome!
 For more details about contributing to this project, please take a look to our [guidelines](CONTRIBUTING.md). 

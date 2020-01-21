@@ -29,6 +29,7 @@ def test_links_create_sends_token_if_given(api_session):
             "save_data": True,
             "token": "fake-token",
         },
+        raise_exception=False,
     )
 
 
@@ -46,6 +47,7 @@ def test_links_create_sends_encryption_key_if_given(api_session):
             "save_data": True,
             "encryption_key": "fake-key",
         },
+        raise_exception=False,
     )
 
 
@@ -63,6 +65,7 @@ def test_transactions_create_sets_current_time_if_no_date_given(api_session):
             "date_to": "2019-02-28",
             "save_data": False,
         },
+        raise_exception=False,
     )
 
 
@@ -80,6 +83,7 @@ def test_transactions_create_sends_token_if_given(api_session):
             "save_data": True,
             "token": "fake-token",
         },
+        raise_exception=False,
     )
 
 
@@ -99,6 +103,7 @@ def test_transactions_create_sends_account_if_given(api_session):
             "save_data": True,
             "account": "fake-account-id",
         },
+        raise_exception=False,
     )
 
 
@@ -118,6 +123,7 @@ def test_transactions_create_sends_encryption_key_if_given(api_session):
             "save_data": True,
             "encryption_key": "fake-key",
         },
+        raise_exception=False,
     )
 
 
@@ -129,6 +135,7 @@ def test_accounts_create_sends_encryption_key_if_given(api_session):
     accounts.session.post.assert_called_with(
         "/api/accounts/",
         data={"link": "fake-link-uuid", "save_data": True, "encryption_key": "fake-key"},
+        raise_exception=False,
     )
 
 
@@ -138,7 +145,9 @@ def test_accounts_create_token_if_given(api_session):
     accounts.create("fake-link-uuid", token="fake-token")
 
     accounts.session.post.assert_called_with(
-        "/api/accounts/", data={"link": "fake-link-uuid", "save_data": True, "token": "fake-token"}
+        "/api/accounts/",
+        data={"link": "fake-link-uuid", "save_data": True, "token": "fake-token"},
+        raise_exception=False,
     )
 
 
@@ -150,6 +159,7 @@ def test_owners_create_sends_encryption_key_if_given(api_session):
     owners.session.post.assert_called_with(
         "/api/owners/",
         data={"link": "fake-link-uuid", "save_data": True, "encryption_key": "fake-key"},
+        raise_exception=False,
     )
 
 
@@ -159,7 +169,9 @@ def test_owners_create_token_if_given(api_session):
     owners.create("fake-link-uuid", token="fake-token")
 
     owners.session.post.assert_called_with(
-        "/api/owners/", data={"link": "fake-link-uuid", "save_data": True, "token": "fake-token"}
+        "/api/owners/",
+        data={"link": "fake-link-uuid", "save_data": True, "token": "fake-token"},
+        raise_exception=False,
     )
 
 
@@ -177,6 +189,7 @@ def test_invoices_create(api_session):
             "type": "INFLOW",
             "save_data": True,
         },
+        raise_exception=False,
     )
 
 
@@ -204,7 +217,9 @@ def test_account_resume(api_session):
     accounts.resume("fake-session", "fake-token")
 
     accounts.session.patch.assert_called_with(
-        "/api/accounts/", data={"session": "fake-session", "token": "fake-token"}
+        "/api/accounts/",
+        data={"session": "fake-session", "token": "fake-token"},
+        raise_exception=False,
     )
 
 
@@ -222,6 +237,7 @@ def test_tax_returns_create(api_session):
             "attach_pdf": True,
             "save_data": True,
         },
+        raise_exception=False,
     )
 
 
@@ -255,4 +271,5 @@ def test_links_update_password(api_session):
             "token": "fake-token",
             "encryption_key": "fake-enc-key",
         },
+        raise_exception=False,
     )

@@ -25,7 +25,7 @@ class Resource:
         return self.session.delete(self.endpoint, id)
 
     def resume(
-        self, session: str, token: str, *, link: str = None, **kwargs
+        self, session: str, token: str, *, link: str = None, raise_exception: bool = False, **kwargs
     ) -> Union[List[Dict], Dict]:
 
         data = {"session": session, "token": token}
@@ -33,7 +33,9 @@ class Resource:
         if link is not None:
             data.update(link=link)
 
-        return self.session.patch(self.endpoint, data=data, **kwargs)
+        return self.session.patch(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
 
 class Links(Resource):
@@ -48,6 +50,7 @@ class Links(Resource):
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
     ) -> Union[List[Dict], Dict]:
 
         data = {
@@ -63,7 +66,7 @@ class Links(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data)
+        return self.session.post(self.endpoint, data=data, raise_exception=raise_exception)
 
     def update(
         self,
@@ -74,6 +77,7 @@ class Links(Resource):
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
     ) -> Union[List[Dict], Dict]:
 
         data = {"password": password, "save_data": save_data}
@@ -87,7 +91,7 @@ class Links(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.put(self.endpoint, id=link, data=data)
+        return self.session.put(self.endpoint, id=link, data=data, raise_exception=raise_exception)
 
 
 class Accounts(Resource):
@@ -100,6 +104,7 @@ class Accounts(Resource):
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
         **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
@@ -110,7 +115,9 @@ class Accounts(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data, **kwargs)
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
 
 class Transactions(Resource):
@@ -126,6 +133,7 @@ class Transactions(Resource):
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
         **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
@@ -141,7 +149,9 @@ class Transactions(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data, **kwargs)
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
 
 class Institutions(Resource):
@@ -150,7 +160,15 @@ class Institutions(Resource):
     def delete(self, id: str) -> bool:
         raise NotImplementedError()
 
-    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
+    def resume(
+        self,
+        session: str,
+        token: str,
+        *,
+        link: str = None,
+        raise_exception: bool = False,
+        **kwargs: str,
+    ) -> Dict:
         raise NotImplementedError()
 
 
@@ -164,6 +182,7 @@ class Owners(Resource):
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
         **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
@@ -174,7 +193,9 @@ class Owners(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data, **kwargs)
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
 
 class Invoices(Resource):
@@ -189,6 +210,7 @@ class Invoices(Resource):
         *,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
         **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
@@ -203,9 +225,19 @@ class Invoices(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data, **kwargs)
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
-    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
+    def resume(
+        self,
+        session: str,
+        token: str,
+        *,
+        link: str = None,
+        raise_exception: bool = False,
+        **kwargs: str,
+    ) -> Dict:
         raise NotImplementedError()
 
 
@@ -221,6 +253,7 @@ class TaxReturns(Resource):
         attach_pdf: bool = False,
         encryption_key: str = None,
         save_data: bool = True,
+        raise_exception: bool = False,
         **kwargs: str,
     ) -> Union[List[Dict], Dict]:
 
@@ -238,7 +271,17 @@ class TaxReturns(Resource):
         if encryption_key:
             data.update(encryption_key=encryption_key)
 
-        return self.session.post(self.endpoint, data=data, **kwargs)
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
 
-    def resume(self, session: str, token: str, *, link: str = None, **kwargs: str) -> Dict:
+    def resume(
+        self,
+        session: str,
+        token: str,
+        *,
+        link: str = None,
+        raise_exception: bool = False,
+        **kwargs: str,
+    ) -> Dict:
         raise NotImplementedError()
