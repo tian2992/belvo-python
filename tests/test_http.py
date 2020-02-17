@@ -88,6 +88,7 @@ def test_post_raises_exception_on_error_if_raises_exception_is_true(responses, f
 
     assert exc.value.status_code == 400
     assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"
 
 
 def test_post_doesnt_raise_exception_on_error_by_default(responses, fake_url):
@@ -102,6 +103,7 @@ def test_post_doesnt_raise_exception_on_error_by_default(responses, fake_url):
     result = session.post("/fake-resource/", {})
 
     assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"
 
 
 def test_put_raises_exception_on_error_if_raises_exception_is_true(responses, fake_url):
@@ -118,6 +120,7 @@ def test_put_raises_exception_on_error_if_raises_exception_is_true(responses, fa
 
     assert exc.value.status_code == 400
     assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"
 
 
 def test_put_doesnt_raise_exception_on_error_by_default(responses, fake_url):
@@ -132,6 +135,7 @@ def test_put_doesnt_raise_exception_on_error_by_default(responses, fake_url):
     result = session.put("/fake-resource/", "some-id", {})
 
     assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"
 
 
 def test_patch_raises_exception_on_error_if_raises_exception_is_true(responses, fake_url):
@@ -148,6 +152,7 @@ def test_patch_raises_exception_on_error_if_raises_exception_is_true(responses, 
 
     assert exc.value.status_code == 400
     assert exc.value.detail == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"
 
 
 def test_patch_doesnt_raise_exception_on_error_by_default(responses, fake_url):
@@ -162,3 +167,4 @@ def test_patch_doesnt_raise_exception_on_error_by_default(responses, fake_url):
     result = session.patch("/fake-resource/", {})
 
     assert result == [{"code": "unsupported", "message": "Wait, that's illegal!"}]
+    assert responses.calls[0].request.headers["Content-Type"] == "application/json"

@@ -63,7 +63,7 @@ class APISession:
         self, endpoint: str, id: str, data: Dict, raise_exception: bool = False, **kwargs
     ) -> Union[List[Dict], Dict]:
         url = "{}{}{}/".format(self.url, endpoint, id)
-        r = self.session.put(url=url, data=data, **kwargs)
+        r = self.session.put(url=url, json=data, **kwargs)
 
         if raise_exception:
             try:
@@ -90,7 +90,7 @@ class APISession:
         self, endpoint: str, data: Dict, raise_exception: bool = False, *args, **kwargs
     ) -> Union[List, Dict]:
         url = "{}{}".format(self.url, endpoint)
-        r = self.session.post(url, data=data, **kwargs)
+        r = self.session.post(url, json=data, **kwargs)
 
         if raise_exception:
             try:
@@ -104,7 +104,7 @@ class APISession:
         self, endpoint: str, data: Dict, raise_exception: bool = False, **kwargs
     ) -> Union[List[Dict], Dict]:
         url = "{}{}".format(self.url, endpoint)
-        r = self.session.patch(url=url, data=data, **kwargs)
+        r = self.session.patch(url=url, json=data, **kwargs)
 
         if raise_exception:
             try:
