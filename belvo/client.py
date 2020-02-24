@@ -2,7 +2,16 @@ import os
 
 from .exceptions import BelvoAPIException
 from .http import APISession
-from .resources import Accounts, Institutions, Invoices, Links, Owners, TaxReturns, Transactions
+from .resources import (
+    Accounts,
+    Balances,
+    Institutions,
+    Invoices,
+    Links,
+    Owners,
+    TaxReturns,
+    Transactions,
+)
 
 
 class Client:
@@ -21,6 +30,7 @@ class Client:
         self._links = Links(self.session)
         self._accounts = Accounts(self.session)
         self._transactions = Transactions(self.session)
+        self._balances = Balances(self.session)
         self._institutions = Institutions(self.session)
         self._owners = Owners(self.session)
         self._invoices = Invoices(self.session)
@@ -37,6 +47,10 @@ class Client:
     @property
     def Transactions(self):
         return self._transactions
+
+    @property
+    def Balances(self):
+        return self._balances
 
     @property
     def Institutions(self):

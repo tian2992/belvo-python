@@ -311,10 +311,10 @@ client.Transactions.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
 ```
 
 ### List and filtering
-In order to make easier to find a `Account` (or many of them), it is possible to 
+In order to make easier to find a `Transaction` (or many of them), it is possible to 
 filter the results.
 
-If not filters are provided, you will get all `accounts` that you have registered.
+If no filters are provided, you will get all `transactions` that you have registered.
 
 **Method:**
 ```python
@@ -332,6 +332,110 @@ transactions = client.transactions.list(institution="banorte")
 
 # Retrieve transactions for a specific account
 transactions = client.transactions.list(
+    account="161a5e4d-67f5-4760-ae4f-c1fe85cb20ca"
+)
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
+
+## Balances
+Account balances at a given time.
+
+### Fetching balances
+To fetch balances you will make use of the `.create()` method. You will get the 
+account balance at the end of every day within the specified date range. You **must** 
+provide a `Link` and a date range defined by `date_from` and `date_to`. 
+
+Optionally, if `Account` is given it will only fetch transaction matching 
+the account.
+
+If the account retrieved in the transaction doesn't exist, it will be created
+with the transaction.
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    date_from: str,
+    *,
+    date_to: str = None,
+    account: str = None,
+    token: str = None,
+    encryption_key: str = None,
+    **kwargs: str
+) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+# Fetch balances for a Link
+balances = client.Balances.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-07-01",
+    date_to="2019-07-31"
+)
+
+# Fetch balances for a Link that was created with a custom encryption key
+balances = client.Balances.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-07-01",
+    date_to="2019-07-31",
+    encryption_key="your-encryption-key"
+)
+
+# Fetch balances for a Link with timeout after 15 seconds
+balances = client.Balances.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-07-01",
+    date_to="2019-07-31",    
+    timeout=15
+)
+```
+
+### Deleting balances
+A `Balance` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(balance: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.Balances.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List and filtering
+In order to make easier to find a `Balance` (or many of them), it is possible to 
+filter the results.
+
+If no filters are provided, you will get all `balances` that you have registered.
+
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all balances (no filter given)
+balances = client.balances.list()
+
+# Retrieve balances for a specific bank
+balances = client.balances.list(institution="banorte")
+
+# Retrieve balances for a specific account
+balances = client.balances.list(
     account="161a5e4d-67f5-4760-ae4f-c1fe85cb20ca"
 )
 ```

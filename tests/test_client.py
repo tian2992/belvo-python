@@ -25,7 +25,16 @@ def test_client_will_raise_exception_when_login_has_failed():
 @pytest.mark.usefixtures("authorized_response")
 @pytest.mark.parametrize(
     "resource_name",
-    ["Accounts", "Links", "Transactions", "Owners", "Institutions", "Invoices", "TaxReturns"],
+    [
+        "Accounts",
+        "Links",
+        "Transactions",
+        "Balances",
+        "Owners",
+        "Institutions",
+        "Invoices",
+        "TaxReturns",
+    ],
 )
 def test_client_resources_uses_same_session_as_client(resource_name):
     c = Client(secret_key_id="a", secret_key_password="b", url="http://fake.url")
