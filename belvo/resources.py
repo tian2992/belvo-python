@@ -242,6 +242,7 @@ class Invoices(Resource):
         date_to: str,
         type_: str,
         *,
+        attach_xml: bool = False,
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
@@ -253,6 +254,7 @@ class Invoices(Resource):
             "date_from": date_from,
             "date_to": date_to,
             "type": type_,
+            "attach_xml": attach_xml,
             "save_data": save_data,
         }
 

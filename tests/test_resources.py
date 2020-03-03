@@ -252,7 +252,7 @@ def test_owners_create_token_if_given(api_session):
 def test_invoices_create(api_session):
     invoices = Invoices(api_session)
     invoices.session.post = MagicMock()
-    invoices.create("fake-link-uuid", "2019-10-01", "2019-11-30", "INFLOW")
+    invoices.create("fake-link-uuid", "2019-10-01", "2019-11-30", "INFLOW", attach_xml=True)
 
     invoices.session.post.assert_called_with(
         "/api/invoices/",
@@ -261,6 +261,7 @@ def test_invoices_create(api_session):
             "date_from": "2019-10-01",
             "date_to": "2019-11-30",
             "type": "INFLOW",
+            "attach_xml": True,
             "save_data": True,
         },
         raise_exception=False,
