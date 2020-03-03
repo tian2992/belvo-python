@@ -9,6 +9,7 @@ from .resources import (
     Invoices,
     Links,
     Owners,
+    Statements,
     TaxReturns,
     Transactions,
 )
@@ -35,6 +36,7 @@ class Client:
         self._owners = Owners(self.session)
         self._invoices = Invoices(self.session)
         self._tax_returns = TaxReturns(self.session)
+        self._statements = Statements(self.session)
 
     @property
     def Links(self):
@@ -67,3 +69,7 @@ class Client:
     @property
     def TaxReturns(self):
         return self._tax_returns
+
+    @property
+    def Statements(self):
+        return self._statements

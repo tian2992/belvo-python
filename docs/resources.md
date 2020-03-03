@@ -683,3 +683,104 @@ tax_returns = client.TaxReturns.list()
 
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
+
+
+## Statements
+List of monthly statements for a given account
+
+### Fetching statements
+To fetch statements you will make use of the `.create()` method, the process will
+retrieve all monthly statements available from the institution. You **must** 
+provide a `Link`, an `Account` and a month defined by `year` and `month`. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    account: str,
+    year: str,
+    month: str,
+    *,
+    attach_pdf: bool = False,
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    **kwargs: str,
+) -> Union[List[Dict], Dict]:
+```
+
+**Example:**
+```python
+# Fetch statements for a Link
+statements = client.Statements.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "161a5e4d-67f5-4760-ae4f-c1fe85cb20ca",
+    "2019",
+    "12"
+)
+
+# Fetch statements for a Link that was created with a custom encryption key
+statements = client.Statements.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "161a5e4d-67f5-4760-ae4f-c1fe85cb20ca",
+    "20192,
+    "12",
+    encryption_key="your-encryption-key"
+)
+```
+
+### Resume fetch statements
+Most institutions use 2FA to verify client's identity. The `.resume()` method 
+is needed in those cases to provide the required `token` during the login.
+`session`, `link` and `account` parameters will be needed to resume the process.
+
+**Method:** 
+
+```python
+def resume(
+    self,
+    session: str,
+    token: str,
+    *,
+    link: str = None,
+    account: str = None,
+    raise_exception: bool = False,
+    **kwargs,
+) -> Union[List[Dict], Dict]:
+```
+
+### Deleting statements
+A `Statement` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(statement: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.Statements.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all statements
+statements = client.Statements.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
