@@ -546,8 +546,10 @@ def create(
     date_to: str,
     type_: str,
     *,
+    attach_xml: bool = False,
     encryption_key: str = None,
     save_data: bool = True,
+    raise_exception: bool = False,
     **kwargs: str,
 ) -> Union[List[Dict], Dict]:
     ...
