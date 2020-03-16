@@ -47,7 +47,10 @@ def create(
     password: str,
     *,
     token: str = None,
-    encryption_key: str = None
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    access_mode: AccessMode = None,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -62,6 +65,10 @@ link = client.Links.create("bancomer", "johndoe", "a-password", token="37038919"
 
 # Link with custom encryption key
 link = client.Links.create("santander", "johndoe", "a-password", encryption_key="your-secret")
+
+# Creating a recurrent link
+from belvo.enums import AccessMode
+link = client.Links.create("banamex", "johndoe", "a-password", access_mode=AccessMode.RECURRENT)
 ```
 
 **:warning: Warning:**

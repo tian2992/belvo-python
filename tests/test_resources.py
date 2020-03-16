@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 import pytest
 from freezegun import freeze_time
 
+from belvo.enums import AccessMode
 from belvo.resources import (
     Accounts,
     Balances,
@@ -30,6 +31,26 @@ def test_links_create_sends_token_if_given(api_session):
             "password": "fake-password",
             "save_data": True,
             "token": "fake-token",
+            "access_mode": "single",
+        },
+        raise_exception=False,
+    )
+
+
+def test_links_create_recurrent_link(api_session):
+    link = Links(api_session)
+    link.session.post = MagicMock()
+
+    link.create("fake-bank", "fake-user", "fake-password", access_mode=AccessMode.RECURRENT)
+
+    link.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "password": "fake-password",
+            "save_data": True,
+            "access_mode": "recurrent",
         },
         raise_exception=False,
     )
@@ -48,6 +69,7 @@ def test_links_create_sends_encryption_key_if_given(api_session):
             "password": "fake-password",
             "save_data": True,
             "encryption_key": "fake-key",
+            "access_mode": "single",
         },
         raise_exception=False,
     )

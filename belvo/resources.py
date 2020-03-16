@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Dict, Generator, List, Union
 
+from belvo.enums import AccessMode
 from belvo.http import APISession
 
 
@@ -51,13 +52,18 @@ class Links(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
+        access_mode: AccessMode = None,
     ) -> Union[List[Dict], Dict]:
+
+        if access_mode is None:
+            access_mode = AccessMode.SINGLE
 
         data = {
             "institution": institution,
             "username": username,
             "password": password,
             "save_data": save_data,
+            "access_mode": access_mode.value,
         }
 
         if token:
