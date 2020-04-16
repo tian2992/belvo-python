@@ -75,6 +75,25 @@ def test_links_create_sends_encryption_key_if_given(api_session):
     )
 
 
+def test_links_create_sends_username_type_if_given(api_session):
+    links = Links(api_session)
+    links.session.post = MagicMock()
+    links.create("fake-bank", "fake-user", "fake-password", username_type="001")
+
+    links.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "password": "fake-password",
+            "save_data": True,
+            "access_mode": "single",
+            "username_type": "001",
+        },
+        raise_exception=False,
+    )
+
+
 @freeze_time("2019-02-28T12:00:00Z")
 def test_transactions_create_sets_current_time_if_no_date_given(api_session):
     transactions = Transactions(api_session)

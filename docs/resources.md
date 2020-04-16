@@ -51,6 +51,7 @@ def create(
     save_data: bool = True,
     raise_exception: bool = False,
     access_mode: AccessMode = None,
+    username_type: str = None,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -69,6 +70,9 @@ link = client.Links.create("santander", "johndoe", "a-password", encryption_key=
 # Creating a recurrent link
 from belvo.enums import AccessMode
 link = client.Links.create("banamex", "johndoe", "a-password", access_mode=AccessMode.RECURRENT)
+
+# Creating a Link with a username_type
+link = client.Links.create("banamex", "johndoe", "a-password", username_type="001")
 ```
 
 **:warning: Warning:**

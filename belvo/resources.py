@@ -53,6 +53,7 @@ class Links(Resource):
         save_data: bool = True,
         raise_exception: bool = False,
         access_mode: AccessMode = None,
+        username_type: str = None,
     ) -> Union[List[Dict], Dict]:
 
         if access_mode is None:
@@ -71,6 +72,9 @@ class Links(Resource):
 
         if encryption_key:
             data.update(encryption_key=encryption_key)
+
+        if username_type:
+            data.update(username_type=username_type)
 
         return self.session.post(self.endpoint, data=data, raise_exception=raise_exception)
 
