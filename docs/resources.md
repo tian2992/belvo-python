@@ -869,3 +869,95 @@ statements = client.Statements.list()
 
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
+
+
+
+## Financial report
+List of Financial report for a given link
+
+### Fetching financial reports
+To fetch financial reports you will make use of the `.create()` method, the process will
+retrieve take a snapshot of the link status. You **must** 
+provide a `Link`. Optionally, you can provide an `Account` in order to filter out entities not matching it.
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    *,
+    account: str,
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    **kwargs: str,
+) -> Union[List[Dict], Dict]:
+```
+
+**Example:**
+```python
+# Fetch Financial Reports for a Link
+financial_report = client.FinancialReports.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+)
+
+# Fetch Financial Report for a Link that was created with a custom encryption key
+financial_report = client.FinancialReport.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    encryption_key="your-encryption-key"
+)
+```
+
+### Resume fetch Financial Reports
+Most institutions use 2FA to verify client's identity. The `.resume()` method 
+is needed in those cases to provide the required `token` during the login.
+`session`, `token` and `link` parameters will be needed to resume the process.
+
+**Method:** 
+
+```python
+def resume(
+    self,
+    session: str,
+    token: str,
+    *,
+    link: str = None,
+    raise_exception: bool = False,
+    **kwargs,
+) -> Union[List[Dict], Dict]:
+```
+
+### Deleting financial reports
+A `FinancialReport` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(financial_report: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.FinancialReports.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all financial reports
+financial_reports = client.FinancialReport.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.

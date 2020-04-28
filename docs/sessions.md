@@ -64,3 +64,4 @@ these resources are available **only** if you provide valid credentials.
 * TaxReturns
 * TaxStatus
 * Statements
+* FinancialReports
