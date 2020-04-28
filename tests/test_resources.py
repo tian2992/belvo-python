@@ -7,6 +7,7 @@ from belvo.enums import AccessMode
 from belvo.resources import (
     Accounts,
     Balances,
+    FinancialReport,
     Institutions,
     Invoices,
     Links,
@@ -236,6 +237,54 @@ def test_balances_create_sends_encryption_key_if_given(api_session):
             "link": "fake-link-uuid",
             "date_from": "2019-01-01",
             "date_to": "2019-02-28",
+            "save_data": True,
+            "encryption_key": "fake-key",
+        },
+        raise_exception=False,
+    )
+
+
+def test_financial_report_create_sends_token_if_given(api_session):
+    report = FinancialReport(api_session)
+    report.session.post = MagicMock()
+    report.create("fake-link-uuid", token="fake-token")
+
+    report.session.post.assert_called_with(
+        "/api/financial-reports/",
+        data={
+            "link": "fake-link-uuid",
+            "save_data": True,
+            "token": "fake-token",
+        },
+        raise_exception=False,
+    )
+
+
+def test_financial_report_create_sends_account_if_given(api_session):
+    report = FinancialReport(api_session)
+    report.session.post = MagicMock()
+    report.create("fake-link-uuid", account="fake-account-id")
+
+    report.session.post.assert_called_with(
+        "/api/financial-reports/",
+        data={
+            "link": "fake-link-uuid",
+            "save_data": True,
+            "account": "fake-account-id",
+        },
+        raise_exception=False,
+    )
+
+
+def test_financial_report_create_sends_encryption_key_if_given(api_session):
+    report = FinancialReport(api_session)
+    report.session.post = MagicMock()
+    report.create("fake-link-uuid", encryption_key="fake-key")
+
+    report.session.post.assert_called_with(
+        "/api/financial-reports/",
+        data={
+            "link": "fake-link-uuid",
             "save_data": True,
             "encryption_key": "fake-key",
         },

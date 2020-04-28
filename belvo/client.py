@@ -5,6 +5,7 @@ from .http import APISession
 from .resources import (
     Accounts,
     Balances,
+    FinancialReport,
     Institutions,
     Invoices,
     Links,
@@ -33,6 +34,7 @@ class Client:
         self._accounts = Accounts(self.session)
         self._transactions = Transactions(self.session)
         self._balances = Balances(self.session)
+        self._financial_report = FinancialReport(self.session)
         self._institutions = Institutions(self.session)
         self._owners = Owners(self.session)
         self._invoices = Invoices(self.session)
@@ -55,6 +57,10 @@ class Client:
     @property
     def Balances(self):
         return self._balances
+
+    @property
+    def FinancialReport(self):
+        return self._financial_report
 
     @property
     def Institutions(self):

@@ -198,6 +198,35 @@ class Balances(Resource):
         )
 
 
+class FinancialReport(Resource):
+    endpoint = "/api/financial-reports/"
+
+    def create(
+        self,
+        link: str,
+        *,
+        account: str = None,
+        token: str = None,
+        encryption_key: str = None,
+        save_data: bool = True,
+        raise_exception: bool = False,
+        **kwargs: str,
+    ) -> Union[List[Dict], Dict]:
+
+        data = {"link": link, "save_data": save_data}
+
+        if account:
+            data.update(account=account)
+        if token:
+            data.update(token=token)
+        if encryption_key:
+            data.update(encryption_key=encryption_key)
+
+        return self.session.post(
+            self.endpoint, data=data, raise_exception=raise_exception, **kwargs
+        )
+
+
 class Institutions(Resource):
     endpoint = "/api/institutions/"
 
