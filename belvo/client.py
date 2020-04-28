@@ -11,6 +11,7 @@ from .resources import (
     Owners,
     Statements,
     TaxReturns,
+    TaxStatus,
     Transactions,
 )
 
@@ -36,6 +37,7 @@ class Client:
         self._owners = Owners(self.session)
         self._invoices = Invoices(self.session)
         self._tax_returns = TaxReturns(self.session)
+        self._tax_status = TaxStatus(self.session)
         self._statements = Statements(self.session)
 
     @property
@@ -69,6 +71,10 @@ class Client:
     @property
     def TaxReturns(self):
         return self._tax_returns
+
+    @property
+    def TaxStatus(self):
+        return self._tax_status
 
     @property
     def Statements(self):

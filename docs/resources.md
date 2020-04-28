@@ -697,6 +697,78 @@ tax_returns = client.TaxReturns.list()
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
 
+## Tax Status
+Tax situation for a given `Link`
+
+### Fetching tax status
+To fetch tax status you will make use of the `.create()` method, the process will
+retrieve the tax status from the institution. You **must** 
+provide a `Link`. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    *,
+    attach_pdf: bool = False,
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    **kwargs: str,
+) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+# Fetch tax status for a Link
+tax_status = client.TaxStatus.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c"
+)
+
+# Fetch tax status for a Link that was created with a custom encryption key and retrieve it's pdf
+tax_status = client.TaxReturns.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    encryption_key="your-encryption-key",
+    attach_pdf=True
+)
+```
+
+### Deleting tax status
+A `TaxStatus` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(tax_status: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.TaxStatus.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all tax status
+tax_status = client.TaxStatus.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
 
 ## Statements
 List of monthly statements for a given account

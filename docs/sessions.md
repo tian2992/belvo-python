@@ -62,4 +62,5 @@ these resources are available **only** if you provide valid credentials.
 * Owners
 * Invoices
 * TaxReturns
+* TaxStatus
 * Statements
