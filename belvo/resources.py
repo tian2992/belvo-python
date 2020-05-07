@@ -3,6 +3,7 @@ from typing import Dict, Generator, List, Union
 
 from belvo.enums import AccessMode
 from belvo.http import APISession
+from belvo.utils import read_file_to_b64
 
 
 class Resource:
@@ -54,6 +55,8 @@ class Links(Resource):
         raise_exception: bool = False,
         access_mode: AccessMode = None,
         username_type: str = None,
+        certificate: str = None,
+        private_key: str = None,
     ) -> Union[List[Dict], Dict]:
 
         if access_mode is None:
@@ -76,21 +79,33 @@ class Links(Resource):
         if username_type:
             data.update(username_type=username_type)
 
+        if certificate:
+            data.update(certificate=read_file_to_b64(certificate))
+
+        if private_key:
+            data.update(private_key=read_file_to_b64(private_key))
+
         return self.session.post(self.endpoint, data=data, raise_exception=raise_exception)
 
     def update(
         self,
         link: str,
-        password: str,
         *,
+        password: str = None,
         password2: str = None,
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
+        username_type: str = None,
+        certificate: str = None,
+        private_key: str = None,
     ) -> Union[List[Dict], Dict]:
 
         data = {"password": password, "save_data": save_data}
+
+        if password:
+            data.update(password=password)
 
         if password2:
             data.update(password2=password2)
@@ -100,6 +115,15 @@ class Links(Resource):
 
         if encryption_key:
             data.update(encryption_key=encryption_key)
+
+        if username_type:
+            data.update(username_type=username_type)
+
+        if certificate:
+            data.update(certificate=read_file_to_b64(certificate))
+
+        if private_key:
+            data.update(private_key=read_file_to_b64(private_key))
 
         return self.session.put(self.endpoint, id=link, data=data, raise_exception=raise_exception)
 

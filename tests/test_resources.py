@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 from freezegun import freeze_time
@@ -93,6 +93,34 @@ def test_links_create_sends_username_type_if_given(api_session):
         },
         raise_exception=False,
     )
+
+
+def test_links_create_with_key_cert(api_session):
+    with patch("belvo.resources.read_file_to_b64") as mocked_b64:
+        mocked_b64.return_value = "123b64file123"
+        links = Links(api_session)
+        links.session.post = MagicMock()
+        links.create(
+            "fake-bank",
+            "fake-user",
+            "fake-password",
+            certificate="/path/to/cert",
+            private_key="/path/to/key",
+        )
+
+        links.session.post.assert_called_with(
+            "/api/links/",
+            data={
+                "institution": "fake-bank",
+                "username": "fake-user",
+                "password": "fake-password",
+                "save_data": True,
+                "access_mode": "single",
+                "certificate": "123b64file123",
+                "private_key": "123b64file123",
+            },
+            raise_exception=False,
+        )
 
 
 @freeze_time("2019-02-28T12:00:00Z")
@@ -392,7 +420,7 @@ def test_links_update_password(api_session):
 
     link.update(
         "fake-link-uuid",
-        "fake-password",
+        password="fake-password",
         password2="fake-pw2",
         token="fake-token",
         encryption_key="fake-enc-key",

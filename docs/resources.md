@@ -52,6 +52,8 @@ def create(
     raise_exception: bool = False,
     access_mode: AccessMode = None,
     username_type: str = None,
+    certificate: str = None,
+    private_key: str = None,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -73,6 +75,9 @@ link = client.Links.create("banamex", "johndoe", "a-password", access_mode=Acces
 
 # Creating a Link with a username_type
 link = client.Links.create("banamex", "johndoe", "a-password", username_type="001")
+
+# Creating a Link with a certificate and private_key
+link = client.Links.create("sat_mx_fiscal", "johndoe", "a-password", certificate="/path/to/cert", private_key="/path/to/key")
 ```
 
 **:warning: Warning:**
@@ -144,12 +149,16 @@ update it with new data, like a password change.
 def update(
     self,
     link: str,
-    password: str,
     *,
+    password: str = None,
     password2: str = None,
     token: str = None,
     encryption_key: str = None,
     save_data: bool = True,
+    raise_exception: bool = False,
+    username_type: str = None,
+    certificate: str = None,
+    private_key: str = None,
 ) -> Union[List[Dict], Dict]:
 ```
 
