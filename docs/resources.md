@@ -878,3 +878,20 @@ statements = client.Statements.list()
 
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
+
+## WidgetToken
+A widget token that contains `access` and `refresh` keys. Use `access` to connect the Belvo Widget to your app. 
+
+### Creating a new token
+To create a new widget token you need to use the `.create()` method, the process will
+request a new token to our API. This token has a limited scope and a short time to live. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    *,
+    raise_exception: bool = False
+) -> Union[List[Dict], Dict]:
+```

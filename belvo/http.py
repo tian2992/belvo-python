@@ -38,6 +38,7 @@ class APISession:
     def login(self, secret_key_id: str, secret_key_password: str, timeout: int = 5) -> bool:
         base_url = "{}/api/".format(self.url)
         self._secret_key_id = secret_key_id
+        self._secret_key_password = secret_key_password
         self._session.auth = (secret_key_id, secret_key_password)
 
         try:

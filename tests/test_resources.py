@@ -15,6 +15,7 @@ from belvo.resources import (
     TaxReturns,
     TaxStatus,
     Transactions,
+    WidgetToken,
 )
 
 
@@ -473,6 +474,22 @@ def test_statements_resume(api_session):
             "token": "fake-token",
             "link": "fake-link-uuid",
             "account": "fake-account-uuid",
+        },
+        raise_exception=False,
+    )
+
+
+def test_access_token_create(api_session):
+    token = WidgetToken(api_session)
+    token.session.post = MagicMock()
+    token.create()
+
+    token.session.post.assert_called_with(
+        "/api/token/",
+        data={
+            "id": "monty",
+            "password": "python",
+            "scopes": "read_institutions,write_links,read_links,delete_links",
         },
         raise_exception=False,
     )

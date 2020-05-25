@@ -13,6 +13,7 @@ from .resources import (
     TaxReturns,
     TaxStatus,
     Transactions,
+    WidgetToken,
 )
 
 
@@ -39,6 +40,7 @@ class Client:
         self._tax_returns = TaxReturns(self.session)
         self._tax_status = TaxStatus(self.session)
         self._statements = Statements(self.session)
+        self._widget_token = WidgetToken(self.session)
 
     @property
     def Links(self):
@@ -79,3 +81,7 @@ class Client:
     @property
     def Statements(self):
         return self._statements
+
+    @property
+    def WidgetToken(self):
+        return self._widget_token
