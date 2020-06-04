@@ -49,6 +49,8 @@ class Links(Resource):
         username: str,
         password: str,
         *,
+        username2: str = None,
+        password2: str = None,
         token: str = None,
         encryption_key: str = None,
         save_data: bool = True,
@@ -69,6 +71,12 @@ class Links(Resource):
             "save_data": save_data,
             "access_mode": access_mode.value,
         }
+
+        if username2:
+            data.update(username2=username2)
+
+        if password2:
+            data.update(password2=password2)
 
         if token:
             data.update(token=token)

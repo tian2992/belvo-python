@@ -77,6 +77,44 @@ def test_links_create_sends_encryption_key_if_given(api_session):
     )
 
 
+def test_links_create_sends_username2_if_given(api_session):
+    links = Links(api_session)
+    links.session.post = MagicMock()
+    links.create("fake-bank", "fake-user", "fake-password", username2="fake-user-two")
+
+    links.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "username2": "fake-user-two",
+            "password": "fake-password",
+            "save_data": True,
+            "access_mode": "single",
+        },
+        raise_exception=False,
+    )
+
+
+def test_links_create_sends_password2_if_given(api_session):
+    links = Links(api_session)
+    links.session.post = MagicMock()
+    links.create("fake-bank", "fake-user", "fake-password", password2="fake-password-two")
+
+    links.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "password": "fake-password",
+            "password2": "fake-password-two",
+            "save_data": True,
+            "access_mode": "single",
+        },
+        raise_exception=False,
+    )
+
+
 def test_links_create_sends_username_type_if_given(api_session):
     links = Links(api_session)
     links.session.post = MagicMock()
