@@ -572,7 +572,7 @@ def create(
     encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
-    **kwargs: str,
+    **kwargs: Dict,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -651,7 +651,7 @@ def create(
     attach_pdf: bool = False,
     encryption_key: str = None,
     save_data: bool = True,
-    **kwargs: str,
+    **kwargs: Dict,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -727,7 +727,7 @@ def create(
     encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
-    **kwargs: str,
+    **kwargs: Dict,
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -803,7 +803,7 @@ def create(
     encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
-    **kwargs: str,
+    **kwargs: Dict,
 ) -> Union[List[Dict], Dict]:
 ```
 

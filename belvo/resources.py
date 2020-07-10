@@ -147,7 +147,7 @@ class Accounts(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         data = {"link": link, "save_data": save_data}
@@ -176,7 +176,7 @@ class Transactions(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         if date_to is None:
@@ -210,7 +210,7 @@ class Balances(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         if date_to is None:
@@ -243,7 +243,7 @@ class Institutions(Resource):
         *,
         link: str = None,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Dict:
         raise NotImplementedError()
 
@@ -259,7 +259,7 @@ class Owners(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         data = {"link": link, "save_data": save_data}
@@ -288,7 +288,7 @@ class Invoices(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         data = {
@@ -314,7 +314,7 @@ class Invoices(Resource):
         *,
         link: str = None,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Dict:
         raise NotImplementedError()
 
@@ -332,7 +332,7 @@ class TaxReturns(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         if year_to is None:
@@ -360,7 +360,7 @@ class TaxReturns(Resource):
         *,
         link: str = None,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Dict:
         raise NotImplementedError()
 
@@ -376,7 +376,7 @@ class TaxStatus(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         data = {"link": link, "attach_pdf": attach_pdf, "save_data": save_data}
@@ -395,7 +395,7 @@ class TaxStatus(Resource):
         *,
         link: str = None,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Dict:
         raise NotImplementedError()
 
@@ -414,7 +414,7 @@ class Statements(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        **kwargs: str,
+        **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
         data = {
