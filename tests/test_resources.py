@@ -7,6 +7,7 @@ from belvo.enums import AccessMode
 from belvo.resources import (
     Accounts,
     Balances,
+    Incomes,
     Institutions,
     Invoices,
     Links,
@@ -356,6 +357,31 @@ def test_owners_create_token_if_given(api_session):
         data={"link": "fake-link-uuid", "save_data": True, "token": "fake-token"},
         raise_exception=False,
     )
+
+
+def test_incomes_create(api_session):
+    incomes = Incomes(api_session)
+    incomes.session.post = MagicMock()
+    incomes.create("fake-link-uuid")
+    incomes.session.post.assert_called()
+    incomes.session.post.assert_called_with(
+        "/api/incomes/", data={"link": "fake-link-uuid", "save_data": True}, raise_exception=False
+    )
+
+
+@pytest.mark.parametrize(
+    ("method", "params"),
+    [
+        ("list", []),
+        ("get", ["fake-id"]),
+        ("delete", ["fake-id"]),
+        ("resume", ["fake-id", "fake-token"]),
+    ],
+)
+def test_incomes_raises_not_implemented(method, params, api_session):
+    incomes = Incomes(api_session)
+    with pytest.raises(NotImplementedError):
+        getattr(incomes, method)(*params)
 
 
 def test_invoices_create(api_session):

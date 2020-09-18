@@ -32,6 +32,7 @@ def test_client_will_raise_exception_when_login_has_failed():
         "Balances",
         "Owners",
         "Institutions",
+        "Incomes",
         "Invoices",
         "TaxReturns",
         "Statements",

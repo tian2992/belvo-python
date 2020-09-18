@@ -467,6 +467,46 @@ balances = client.balances.list(
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
 
+
+## Incomes
+Bank entities that are supported by Belvo API.
+
+### Fetching incomes
+Retrieve the monthly income summaries for a specific `Link`.
+
+**Method:**
+```python
+def create(
+    self,
+    link: str,
+    *,
+    token: str = None,
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    **kwargs: Dict,
+) -> Union[List[Dict], Dict]
+```
+
+**Example:**
+```python
+# Fetch incomes for a Link
+incomes = client.Incomes.create("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c")
+
+# Fetch incomes for a Link that was created with a custom encryption key
+incomes = client.Incomes.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    encryption_key="your-encryption-key"
+)
+
+# Fetch incomes for a Link with and timeout after 15 seconds
+incomes = client.Incomes.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    timeout=15
+)
+```
+
+
 ## Owners
 Personal information available from an account owner.
 
