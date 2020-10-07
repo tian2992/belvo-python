@@ -170,6 +170,21 @@ def update(
 link = client.Links.update("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c", "a-password")
 ```
 
+### Requesting link scoped tokens
+A link token that contains `access` and `refresh` keys.
+This link token is scoped to the link that created it and valid for the actions done with this link only.
+
+**Method:**
+```python
+def token(link: str, scopes: str) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+link_token = client.Links.token(link="b91835f5-6f83-4d9b-a0ad-a5a249f18b7c", scopes="read_links")
+```
+
 ## Accounts
 Bank accounts available for a link.
 

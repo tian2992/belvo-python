@@ -557,3 +557,15 @@ def test_access_token_create(api_session):
         },
         raise_exception=False,
     )
+
+
+def test_link_token(api_session):
+    link = Links(api_session)
+    link.session.post = MagicMock()
+    link.token(link="fake-link-uui", scopes="read_links,write_links")
+
+    link.session.post.assert_called_with(
+        "/api/links/fake-link-uui/token/",
+        data={"scopes": "read_links,write_links"},
+        raise_exception=False,
+    )

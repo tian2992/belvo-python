@@ -135,6 +135,14 @@ class Links(Resource):
 
         return self.session.put(self.endpoint, id=link, data=data, raise_exception=raise_exception)
 
+    def token(
+        self, link: str, scopes: str, *, raise_exception: bool = False
+    ) -> Union[List[Dict], Dict]:
+        data = {"scopes": scopes}
+        return self.session.post(
+            f"{self.endpoint}{link}/token/", data=data, raise_exception=raise_exception
+        )
+
 
 class Accounts(Resource):
     endpoint = "/api/accounts/"
