@@ -20,3 +20,13 @@ script: tox
 
 after_script:
   - coveralls
+
+deploy:
+  provider: pypi
+  username: "__token__"
+  password:
+    secure: "jwkUlMao9WzcM6NZO4cYiN7vrzs8qcmKZA8zL7N5egfOzxFaH+5pDryzMe58ZG0iR3FoH8y4yBaNEIBAUyRWkWBOakCx22PTGK/rxukTZIHipBNG92ElKIb6Cc5Do/bejoEpzHiBiGac4HhxCdWLVGZOAalQ/XKtDpI+mClh2V+J/78sDyOMm0rcFTs0JHzQGSlln0BAmkS5H8CT4I8/+4/Y1KdxbJDLTDKbtR8wULvilXpp07Al7vdhhgaV0DfoaAwzS+jRUogkCSzftLGLa6oaQkqppm0Tqn4pHVEaC+ibGGszxjKxMXJ3q8huTg/o7phIrLxjFK5tJ3+9Iw/SRr1ru3Wn1TChfxPTkNpxp5h4R9avAI75Mbw+XNP2T7asPFZL/R4vjMEIlbbjKgv8/Br9DMZ/c3w3cup4sS8fYV21Gs01m8R/3QfSS1fcXDH14IV5DcvswgPskvWWTQsqO4diXfF5VDezGfGlEMVVe75gH9R2/A3STqc66Cd0RKvByWyAwHHBqsbya5bZupKLCSw04R8Dk9LevqArdP47eb5lYH4Y0YdyevHMLowOiH1C/OD8UmtHsyZNGQA03Y9Ynq80n/EnRX6Qa7n+3/Zh6AdmyuMKxtKyGoCH+2yxWcXgHlQTfaAT/l8PTtrNiXjYvDdbErW6cCrxfel2Kn1jKiA="
+  on:
+    tags: true
+    repo: belvo-finance/belvo-python
+  skip_cleanup: true
