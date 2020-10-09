@@ -42,6 +42,13 @@ for account in client.Accounts.list(type="checking"):
     pprint(account)
 ```
 
+## 🐍 Development
+
+To release a new version of the SDK to PyPI:
+- Use `make new-version major|minor|patch` to bump a new version.
+- Create a new pull request for the new version.
+- Once the new version is merged in `master`, create a `tag` matching the new version.
+
 ## 👥 Contributing
 **Anyone** can do something to make `belvo-python` better, so contributors are always welcome!
 For more details about contributing to this project, please take a look to our [guidelines](CONTRIBUTING.md). 
