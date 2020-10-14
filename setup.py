@@ -14,6 +14,8 @@ with open(path.join(here, "requirements/base.txt")) as f:
     requirements = f.read().splitlines()
 
 setup(
+    name="belvo-python",
+    url="https://github.com/belvo-finance/belvo-python",
     version=__version__,
     description="Belvo Python SDK",
     python_requires=">=3.6, <4",
