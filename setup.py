@@ -1,17 +1,29 @@
 #!/usr/bin/env python
-from os import path
+import os
 
 from setuptools import setup
 
 from belvo import __version__
 
-here = path.abspath(path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 
-with open(path.join(here, "README.md"), encoding="utf-8") as f:
+with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-with open(path.join(here, "requirements/base.txt")) as f:
+with open(os.path.join(here, "requirements/base.txt")) as f:
     requirements = f.read().splitlines()
+
+
+def get_packages():
+    """
+    Return root package and all sub-packages.
+    """
+    return [
+        dirpath
+        for dirpath, dirnames, filenames in os.walk("belvo")
+        if os.path.exists(os.path.join(dirpath, "__init__.py"))
+    ]
+
 
 setup(
     name="belvo-python",
@@ -22,4 +34,5 @@ setup(
     install_requires=requirements,
     long_description=long_description,
     long_description_content_type="text/markdown",
+    packages=get_packages(),
 )
