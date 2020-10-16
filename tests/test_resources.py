@@ -239,11 +239,10 @@ def test_transactions_create_sends_encryption_key_if_given(api_session):
     )
 
 
-@freeze_time("2019-02-28T12:00:00Z")
 def test_balances_create_sets_current_time_if_no_date_given(api_session):
     balances = Balances(api_session)
     balances.session.post = MagicMock()
-    balances.create("fake-link-uuid", "2019-01-01", save_data=False)
+    balances.create("fake-link-uuid", "2019-01-01", "2019-02-28", save_data=False)
 
     balances.session.post.assert_called_with(
         "/api/balances/",
@@ -260,7 +259,7 @@ def test_balances_create_sets_current_time_if_no_date_given(api_session):
 def test_balance_create_sends_token_if_given(api_session):
     balances = Balances(api_session)
     balances.session.post = MagicMock()
-    balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", token="fake-token")
+    balances.create("fake-link-uuid", "2019-01-01", "2019-02-28", token="fake-token")
 
     balances.session.post.assert_called_with(
         "/api/balances/",
@@ -278,7 +277,7 @@ def test_balance_create_sends_token_if_given(api_session):
 def test_balances_create_sends_account_if_given(api_session):
     balances = Balances(api_session)
     balances.session.post = MagicMock()
-    balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", account="fake-account-id")
+    balances.create("fake-link-uuid", "2019-01-01", "2019-02-28", account="fake-account-id")
 
     balances.session.post.assert_called_with(
         "/api/balances/",
@@ -296,7 +295,7 @@ def test_balances_create_sends_account_if_given(api_session):
 def test_balances_create_sends_encryption_key_if_given(api_session):
     balances = Balances(api_session)
     balances.session.post = MagicMock()
-    balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", encryption_key="fake-key")
+    balances.create("fake-link-uuid", "2019-01-01", "2019-02-28", encryption_key="fake-key")
 
     balances.session.post.assert_called_with(
         "/api/balances/",

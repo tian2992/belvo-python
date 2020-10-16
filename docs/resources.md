@@ -399,8 +399,8 @@ def create(
     self,
     link: str,
     date_from: str,
+    date_to: str,
     *,
-    date_to: str = None,
     account: str = None,
     token: str = None,
     encryption_key: str = None,
@@ -415,14 +415,14 @@ def create(
 balances = client.Balances.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019-07-01",
-    date_to="2019-07-31"
+    "2019-07-31"
 )
 
 # Fetch balances for a Link that was created with a custom encryption key
 balances = client.Balances.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019-07-01",
-    date_to="2019-07-31",
+    "2019-07-31",
     encryption_key="your-encryption-key"
 )
 
@@ -430,7 +430,7 @@ balances = client.Balances.create(
 balances = client.Balances.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019-07-01",
-    date_to="2019-07-31",    
+    "2019-07-31",    
     timeout=15
 )
 ```
