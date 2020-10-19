@@ -211,8 +211,8 @@ class Balances(Resource):
         self,
         link: str,
         date_from: str,
-        date_to: str,
         *,
+        date_to: str = None,
         account: str = None,
         token: str = None,
         encryption_key: str = None,
@@ -220,6 +220,9 @@ class Balances(Resource):
         raise_exception: bool = False,
         **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
+
+        if date_to is None:
+            date_to = date.today().isoformat()
 
         data = {"link": link, "date_from": date_from, "date_to": date_to, "save_data": save_data}
 
