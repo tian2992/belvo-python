@@ -1,21 +1,8 @@
 import os
 
+from . import resources
 from .exceptions import BelvoAPIException
 from .http import APISession
-from .resources import (
-    Accounts,
-    Balances,
-    Incomes,
-    Institutions,
-    Invoices,
-    Links,
-    Owners,
-    Statements,
-    TaxReturns,
-    TaxStatus,
-    Transactions,
-    WidgetToken,
-)
 
 
 class Client:
@@ -31,18 +18,18 @@ class Client:
         if not self.session.login(secret_key_id, secret_key_password):
             raise BelvoAPIException("Login failed.")
 
-        self._links = Links(self.session)
-        self._accounts = Accounts(self.session)
-        self._transactions = Transactions(self.session)
-        self._balances = Balances(self.session)
-        self._institutions = Institutions(self.session)
-        self._incomes = Incomes(self.session)
-        self._owners = Owners(self.session)
-        self._invoices = Invoices(self.session)
-        self._tax_returns = TaxReturns(self.session)
-        self._tax_status = TaxStatus(self.session)
-        self._statements = Statements(self.session)
-        self._widget_token = WidgetToken(self.session)
+        self._links = resources.Links(self.session)
+        self._accounts = resources.Accounts(self.session)
+        self._transactions = resources.Transactions(self.session)
+        self._balances = resources.Balances(self.session)
+        self._institutions = resources.Institutions(self.session)
+        self._incomes = resources.Incomes(self.session)
+        self._owners = resources.Owners(self.session)
+        self._invoices = resources.Invoices(self.session)
+        self._tax_returns = resources.TaxReturns(self.session)
+        self._tax_status = resources.TaxStatus(self.session)
+        self._statements = resources.Statements(self.session)
+        self._widget_token = resources.WidgetToken(self.session)
 
     @property
     def Links(self):

@@ -3,25 +3,12 @@ from unittest.mock import MagicMock, patch
 import pytest
 from freezegun import freeze_time
 
+from belvo import resources
 from belvo.enums import AccessMode
-from belvo.resources import (
-    Accounts,
-    Balances,
-    Incomes,
-    Institutions,
-    Invoices,
-    Links,
-    Owners,
-    Statements,
-    TaxReturns,
-    TaxStatus,
-    Transactions,
-    WidgetToken,
-)
 
 
 def test_links_create_sends_token_if_given(api_session):
-    link = Links(api_session)
+    link = resources.Links(api_session)
     link.session.post = MagicMock()
 
     link.create("fake-bank", "fake-user", "fake-password", token="fake-token")
@@ -41,7 +28,7 @@ def test_links_create_sends_token_if_given(api_session):
 
 
 def test_links_create_recurrent_link(api_session):
-    link = Links(api_session)
+    link = resources.Links(api_session)
     link.session.post = MagicMock()
 
     link.create("fake-bank", "fake-user", "fake-password", access_mode=AccessMode.RECURRENT)
@@ -60,7 +47,7 @@ def test_links_create_recurrent_link(api_session):
 
 
 def test_links_create_sends_encryption_key_if_given(api_session):
-    links = Links(api_session)
+    links = resources.Links(api_session)
     links.session.post = MagicMock()
     links.create("fake-bank", "fake-user", "fake-password", encryption_key="fake-key")
 
@@ -79,7 +66,7 @@ def test_links_create_sends_encryption_key_if_given(api_session):
 
 
 def test_links_create_sends_username2_if_given(api_session):
-    links = Links(api_session)
+    links = resources.Links(api_session)
     links.session.post = MagicMock()
     links.create("fake-bank", "fake-user", "fake-password", username2="fake-user-two")
 
@@ -98,7 +85,7 @@ def test_links_create_sends_username2_if_given(api_session):
 
 
 def test_links_create_sends_password2_if_given(api_session):
-    links = Links(api_session)
+    links = resources.Links(api_session)
     links.session.post = MagicMock()
     links.create("fake-bank", "fake-user", "fake-password", password2="fake-password-two")
 
@@ -117,7 +104,7 @@ def test_links_create_sends_password2_if_given(api_session):
 
 
 def test_links_create_sends_username_type_if_given(api_session):
-    links = Links(api_session)
+    links = resources.Links(api_session)
     links.session.post = MagicMock()
     links.create("fake-bank", "fake-user", "fake-password", username_type="001")
 
@@ -136,9 +123,9 @@ def test_links_create_sends_username_type_if_given(api_session):
 
 
 def test_links_create_with_key_cert(api_session):
-    with patch("belvo.resources.read_file_to_b64") as mocked_b64:
+    with patch("belvo.resources.links.read_file_to_b64") as mocked_b64:
         mocked_b64.return_value = "123b64file123"
-        links = Links(api_session)
+        links = resources.Links(api_session)
         links.session.post = MagicMock()
         links.create(
             "fake-bank",
@@ -165,7 +152,7 @@ def test_links_create_with_key_cert(api_session):
 
 @freeze_time("2019-02-28T12:00:00Z")
 def test_transactions_create_sets_current_time_if_no_date_given(api_session):
-    transactions = Transactions(api_session)
+    transactions = resources.Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create("fake-link-uuid", "2019-01-01", save_data=False)
 
@@ -182,7 +169,7 @@ def test_transactions_create_sets_current_time_if_no_date_given(api_session):
 
 
 def test_transactions_create_sends_token_if_given(api_session):
-    transactions = Transactions(api_session)
+    transactions = resources.Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", token="fake-token")
 
@@ -200,7 +187,7 @@ def test_transactions_create_sends_token_if_given(api_session):
 
 
 def test_transactions_create_sends_account_if_given(api_session):
-    transactions = Transactions(api_session)
+    transactions = resources.Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create(
         "fake-link-uuid", "2019-01-01", date_to="2019-02-28", account="fake-account-id"
@@ -220,7 +207,7 @@ def test_transactions_create_sends_account_if_given(api_session):
 
 
 def test_transactions_create_sends_encryption_key_if_given(api_session):
-    transactions = Transactions(api_session)
+    transactions = resources.Transactions(api_session)
     transactions.session.post = MagicMock()
     transactions.create(
         "fake-link-uuid", "2019-01-01", date_to="2019-02-28", encryption_key="fake-key"
@@ -241,7 +228,7 @@ def test_transactions_create_sends_encryption_key_if_given(api_session):
 
 @freeze_time("2019-02-28T12:00:00Z")
 def test_balances_create_sets_current_time_if_no_date_given(api_session):
-    balances = Balances(api_session)
+    balances = resources.Balances(api_session)
     balances.session.post = MagicMock()
     balances.create("fake-link-uuid", "2019-01-01", save_data=False)
 
@@ -258,7 +245,7 @@ def test_balances_create_sets_current_time_if_no_date_given(api_session):
 
 
 def test_balance_create_sends_token_if_given(api_session):
-    balances = Balances(api_session)
+    balances = resources.Balances(api_session)
     balances.session.post = MagicMock()
     balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", token="fake-token")
 
@@ -276,7 +263,7 @@ def test_balance_create_sends_token_if_given(api_session):
 
 
 def test_balances_create_sends_account_if_given(api_session):
-    balances = Balances(api_session)
+    balances = resources.Balances(api_session)
     balances.session.post = MagicMock()
     balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", account="fake-account-id")
 
@@ -294,7 +281,7 @@ def test_balances_create_sends_account_if_given(api_session):
 
 
 def test_balances_create_sends_encryption_key_if_given(api_session):
-    balances = Balances(api_session)
+    balances = resources.Balances(api_session)
     balances.session.post = MagicMock()
     balances.create("fake-link-uuid", "2019-01-01", date_to="2019-02-28", encryption_key="fake-key")
 
@@ -312,7 +299,7 @@ def test_balances_create_sends_encryption_key_if_given(api_session):
 
 
 def test_accounts_create_sends_encryption_key_if_given(api_session):
-    accounts = Accounts(api_session)
+    accounts = resources.Accounts(api_session)
     accounts.session.post = MagicMock()
     accounts.create("fake-link-uuid", encryption_key="fake-key")
 
@@ -324,7 +311,7 @@ def test_accounts_create_sends_encryption_key_if_given(api_session):
 
 
 def test_accounts_create_token_if_given(api_session):
-    accounts = Accounts(api_session)
+    accounts = resources.Accounts(api_session)
     accounts.session.post = MagicMock()
     accounts.create("fake-link-uuid", token="fake-token")
 
@@ -336,7 +323,7 @@ def test_accounts_create_token_if_given(api_session):
 
 
 def test_owners_create_sends_encryption_key_if_given(api_session):
-    owners = Owners(api_session)
+    owners = resources.Owners(api_session)
     owners.session.post = MagicMock()
     owners.create("fake-link-uuid", encryption_key="fake-key")
 
@@ -348,7 +335,7 @@ def test_owners_create_sends_encryption_key_if_given(api_session):
 
 
 def test_owners_create_token_if_given(api_session):
-    owners = Owners(api_session)
+    owners = resources.Owners(api_session)
     owners.session.post = MagicMock()
     owners.create("fake-link-uuid", token="fake-token")
 
@@ -360,7 +347,7 @@ def test_owners_create_token_if_given(api_session):
 
 
 def test_incomes_create(api_session):
-    incomes = Incomes(api_session)
+    incomes = resources.Incomes(api_session)
     incomes.session.post = MagicMock()
     incomes.create("fake-link-uuid")
     incomes.session.post.assert_called()
@@ -379,13 +366,13 @@ def test_incomes_create(api_session):
     ],
 )
 def test_incomes_raises_not_implemented(method, params, api_session):
-    incomes = Incomes(api_session)
+    incomes = resources.Incomes(api_session)
     with pytest.raises(NotImplementedError):
         getattr(incomes, method)(*params)
 
 
 def test_invoices_create(api_session):
-    invoices = Invoices(api_session)
+    invoices = resources.Invoices(api_session)
     invoices.session.post = MagicMock()
     invoices.create("fake-link-uuid", "2019-10-01", "2019-11-30", "INFLOW", attach_xml=True)
 
@@ -405,7 +392,7 @@ def test_invoices_create(api_session):
 
 @pytest.mark.parametrize("method", ["resume"])
 def test_invoices_raises_not_implemented(method, api_session):
-    invoices = Invoices(api_session)
+    invoices = resources.Invoices(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(invoices, method)
         assert func("fake-id", token="fake-token")
@@ -415,14 +402,14 @@ def test_invoices_raises_not_implemented(method, api_session):
     ("method", "params"), [("resume", {"fake-token", "fake-session"}), ("delete", {"fake-token"})]
 )
 def test_institutions_raises_not_implemented(method, params, api_session):
-    institutions = Institutions(api_session)
+    institutions = resources.Institutions(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(institutions, method)
         assert func(*params)
 
 
 def test_account_resume(api_session):
-    accounts = Accounts(api_session)
+    accounts = resources.Accounts(api_session)
     accounts.session.patch = MagicMock()
     accounts.resume("fake-session", "fake-token")
 
@@ -434,16 +421,16 @@ def test_account_resume(api_session):
 
 
 def test_tax_returns_create(api_session):
-    tax_returns = TaxReturns(api_session)
+    tax_returns = resources.TaxReturns(api_session)
     tax_returns.session.post = MagicMock()
-    tax_returns.create("fake-link-uuid", 2019, 2019, attach_pdf=True)
+    tax_returns.create("fake-link-uuid", "2019", "2019", attach_pdf=True)
 
     tax_returns.session.post.assert_called_with(
         "/api/tax-returns/",
         data={
             "link": "fake-link-uuid",
-            "year_from": 2019,
-            "year_to": 2019,
+            "year_from": "2019",
+            "year_to": "2019",
             "attach_pdf": True,
             "save_data": True,
         },
@@ -453,14 +440,14 @@ def test_tax_returns_create(api_session):
 
 @pytest.mark.parametrize("method", ["resume"])
 def test_tax_returns_raises_not_implemented(method, api_session):
-    tax_returns = TaxReturns(api_session)
+    tax_returns = resources.TaxReturns(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(tax_returns, method)
         assert func("fake-id", token="fake-token")
 
 
 def test_tax_status_create(api_session):
-    tax_status = TaxStatus(api_session)
+    tax_status = resources.TaxStatus(api_session)
     tax_status.session.post = MagicMock()
     tax_status.create("fake-link-uuid", attach_pdf=True)
 
@@ -473,14 +460,14 @@ def test_tax_status_create(api_session):
 
 @pytest.mark.parametrize("method", ["resume"])
 def test_tax_status_raises_not_implemented(method, api_session):
-    tax_status = TaxStatus(api_session)
+    tax_status = resources.TaxStatus(api_session)
     with pytest.raises(NotImplementedError):
         func = getattr(tax_status, method)
         assert func("fake-id", token="fake-token")
 
 
 def test_links_update_password(api_session):
-    link = Links(api_session)
+    link = resources.Links(api_session)
     link.session.put = MagicMock()
 
     link.update(
@@ -506,7 +493,7 @@ def test_links_update_password(api_session):
 
 
 def test_statements_create(api_session):
-    statements = Statements(api_session)
+    statements = resources.Statements(api_session)
     statements.session.post = MagicMock()
     statements.create("fake-link-uuid", "fake-account-uuid", "2019", "12", attach_pdf=True)
 
@@ -525,7 +512,7 @@ def test_statements_create(api_session):
 
 
 def test_statements_resume(api_session):
-    statements = Statements(api_session)
+    statements = resources.Statements(api_session)
     statements.session.patch = MagicMock()
     statements.resume(
         "fake-session", "fake-token", link="fake-link-uuid", account="fake-account-uuid"
@@ -544,7 +531,7 @@ def test_statements_resume(api_session):
 
 
 def test_access_token_create(api_session):
-    token = WidgetToken(api_session)
+    token = resources.WidgetToken(api_session)
     token.session.post = MagicMock()
     token.create()
 
@@ -560,7 +547,7 @@ def test_access_token_create(api_session):
 
 
 def test_link_token(api_session):
-    link = Links(api_session)
+    link = resources.Links(api_session)
     link.session.post = MagicMock()
     link.token(link="fake-link-uui", scopes="read_links,write_links")
 
