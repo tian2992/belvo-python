@@ -21,17 +21,17 @@ def test_links_create_sends_token_if_given(api_session):
             "password": "fake-password",
             "save_data": True,
             "token": "fake-token",
-            "access_mode": "single",
         },
         raise_exception=False,
     )
 
 
-def test_links_create_recurrent_link(api_session):
+@pytest.mark.parametrize("mode", [AccessMode.RECURRENT, AccessMode.SINGLE])
+def test_links_create_can_set_access_mode(api_session, mode):
     link = resources.Links(api_session)
     link.session.post = MagicMock()
 
-    link.create("fake-bank", "fake-user", "fake-password", access_mode=AccessMode.RECURRENT)
+    link.create("fake-bank", "fake-user", "fake-password", access_mode=mode)
 
     link.session.post.assert_called_with(
         "/api/links/",
@@ -40,7 +40,7 @@ def test_links_create_recurrent_link(api_session):
             "username": "fake-user",
             "password": "fake-password",
             "save_data": True,
-            "access_mode": "recurrent",
+            "access_mode": mode.value,
         },
         raise_exception=False,
     )
@@ -59,7 +59,6 @@ def test_links_create_sends_encryption_key_if_given(api_session):
             "password": "fake-password",
             "save_data": True,
             "encryption_key": "fake-key",
-            "access_mode": "single",
         },
         raise_exception=False,
     )
@@ -78,7 +77,6 @@ def test_links_create_sends_username2_if_given(api_session):
             "username2": "fake-user-two",
             "password": "fake-password",
             "save_data": True,
-            "access_mode": "single",
         },
         raise_exception=False,
     )
@@ -97,7 +95,6 @@ def test_links_create_sends_password2_if_given(api_session):
             "password": "fake-password",
             "password2": "fake-password-two",
             "save_data": True,
-            "access_mode": "single",
         },
         raise_exception=False,
     )
@@ -115,7 +112,6 @@ def test_links_create_sends_username_type_if_given(api_session):
             "username": "fake-user",
             "password": "fake-password",
             "save_data": True,
-            "access_mode": "single",
             "username_type": "001",
         },
         raise_exception=False,
@@ -142,7 +138,6 @@ def test_links_create_with_key_cert(api_session):
                 "username": "fake-user",
                 "password": "fake-password",
                 "save_data": True,
-                "access_mode": "single",
                 "certificate": "123b64file123",
                 "private_key": "123b64file123",
             },

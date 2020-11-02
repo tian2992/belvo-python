@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from belvo.enums import AccessMode
 from belvo.resources.base import Resource
@@ -20,7 +20,7 @@ class Links(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
-        access_mode: AccessMode = AccessMode.SINGLE,
+        access_mode: Optional[AccessMode] = None,
         username_type: str = None,
         certificate: str = None,
         private_key: str = None,
@@ -31,31 +31,19 @@ class Links(Resource):
             "username": username,
             "password": password,
             "save_data": save_data,
-            "access_mode": access_mode.value,
+            "access_mode": access_mode and access_mode.value,
+            "username2": username2,
+            "password2": password2,
+            "token": token,
+            "encryption_key": encryption_key,
+            "username_type": username_type,
+            "certificate": certificate and read_file_to_b64(certificate),
+            "private_key": private_key and read_file_to_b64(private_key),
         }
 
-        if username2:
-            data.update(username2=username2)
+        clean_data = {key: value for key, value in data.items() if value}
 
-        if password2:
-            data.update(password2=password2)
-
-        if token:
-            data.update(token=token)
-
-        if encryption_key:
-            data.update(encryption_key=encryption_key)
-
-        if username_type:
-            data.update(username_type=username_type)
-
-        if certificate:
-            data.update(certificate=read_file_to_b64(certificate))
-
-        if private_key:
-            data.update(private_key=read_file_to_b64(private_key))
-
-        return self.session.post(self.endpoint, data=data, raise_exception=raise_exception)
+        return self.session.post(self.endpoint, data=clean_data, raise_exception=raise_exception)
 
     def update(
         self,
@@ -72,30 +60,22 @@ class Links(Resource):
         private_key: str = None,
     ) -> Union[List[Dict], Dict]:
 
-        data = {"password": password, "save_data": save_data}
+        data = {
+            "password": password,
+            "save_data": save_data,
+            "password2": password2,
+            "token": token,
+            "encryption_key": encryption_key,
+            "username_type": username_type,
+            "certificate": certificate and read_file_to_b64(certificate),
+            "private_key": private_key and read_file_to_b64(private_key),
+        }
 
-        if password:
-            data.update(password=password)
+        clean_data = {key: value for key, value in data.items() if value}
 
-        if password2:
-            data.update(password2=password2)
-
-        if token:
-            data.update(token=token)
-
-        if encryption_key:
-            data.update(encryption_key=encryption_key)
-
-        if username_type:
-            data.update(username_type=username_type)
-
-        if certificate:
-            data.update(certificate=read_file_to_b64(certificate))
-
-        if private_key:
-            data.update(private_key=read_file_to_b64(private_key))
-
-        return self.session.put(self.endpoint, id=link, data=data, raise_exception=raise_exception)
+        return self.session.put(
+            self.endpoint, id=link, data=clean_data, raise_exception=raise_exception
+        )
 
     def token(
         self, link: str, scopes: str, *, raise_exception: bool = False
