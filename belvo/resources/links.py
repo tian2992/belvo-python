@@ -1,3 +1,4 @@
+import warnings
 from typing import Dict, List, Optional, Union
 
 from belvo.enums import AccessMode
@@ -80,7 +81,13 @@ class Links(Resource):
     def token(
         self, link: str, scopes: str, *, raise_exception: bool = False
     ) -> Union[List[Dict], Dict]:
-        data = {"scopes": scopes}
-        return self.session.post(
-            f"{self.endpoint}{link}/token/", data=data, raise_exception=raise_exception
+        from belvo.resources import WidgetToken
+
+        warnings.warn(
+            "Please make use of `client.WidgetToken.create(link=<link:uuid>)` "
+            "to request a link scoped token instead.",
+            DeprecationWarning,
         )
+
+        token = WidgetToken(self.session)
+        return token.create(scopes=scopes, link=link, raise_exception=raise_exception)

@@ -547,7 +547,12 @@ def test_link_token(api_session):
     link.token(link="fake-link-uui", scopes="read_links,write_links")
 
     link.session.post.assert_called_with(
-        "/api/links/fake-link-uui/token/",
-        data={"scopes": "read_links,write_links"},
+        "/api/token/",
+        data={
+            "id": "monty",
+            "password": "python",
+            "scopes": "read_links,write_links",
+            "link": "fake-link-uui",
+        },
         raise_exception=False,
     )
