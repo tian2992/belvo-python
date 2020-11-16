@@ -4,8 +4,20 @@
     <a href="https://pypistats.org/packages/belvo-python"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/belvo-python?style=for-the-badge"></a>
     <a href="https://travis-ci.com/belvo-finance/belvo-python"><img alt="Travis (.com)" src="https://img.shields.io/travis/com/belvo-finance/belvo-python/master?style=for-the-badge"></a>
     <a href="https://coveralls.io/github/belvo-finance/belvo-python"><img alt="Coveralls github" src="https://img.shields.io/coveralls/github/belvo-finance/belvo-python?style=for-the-badge"></a>
+    <a href="https://github.com/psf/black"><img alt="Coveralls github" src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge"></a>
 </p>
-<p align="center"><a href="https://developers.belvo.co">Developers portal</a> | <a href="https://belvo-finance.github.io/belvo-python">Documentation</a></p>
+
+## 📕 Documentation
+How to use `belvo-python`: https://belvo-finance.github.io/belvo-python/
+
+If you want to check the full documentation about Belvo API: https://docs.belvo.co
+
+Or if you want to more information about:
+* [Getting Belvo API keys](https://developers.belvo.com/docs/get-your-belvo-api-keys)
+* [Using Connect Widget](https://developers.belvo.com/docs/connect-widget)
+* [Testing in sandbox](https://developers.belvo.com/docs/test-in-sandbox)
+* [Using webhooks and recurrent links](https://developers.belvo.com/docs/webhooks)
+
 
 ## 📋 Requirements
 * Python 3.6+
