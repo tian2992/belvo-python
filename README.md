@@ -35,6 +35,7 @@ $ pip install belvo-python
 from pprint import pprint
 
 from belvo.client import Client
+from belvo.enums import AccessMode
 
 # Login to Belvo API
 client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.co")
@@ -43,7 +44,8 @@ client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.co")
 link = client.Links.create(
     institution="banamex",
     username="johndoe",
-    password="supersecret"
+    password="supersecret",
+    access_mode=AccessMode.SINGLE
 )
 
 # Get all accounts
