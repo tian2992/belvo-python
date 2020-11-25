@@ -81,6 +81,31 @@ def test_links_create_sends_username2_if_given(api_session):
     )
 
 
+def test_links_create_sends_username3_if_given(api_session):
+    links = resources.Links(api_session)
+    links.session.post = MagicMock()
+    links.create(
+        "fake-bank",
+        "fake-user",
+        "fake-password",
+        username2="fake-user-two",
+        username3="fake-user-three",
+    )
+
+    links.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "username2": "fake-user-two",
+            "username3": "fake-user-three",
+            "password": "fake-password",
+            "save_data": True,
+        },
+        raise_exception=False,
+    )
+
+
 def test_links_create_sends_password2_if_given(api_session):
     links = resources.Links(api_session)
     links.session.post = MagicMock()

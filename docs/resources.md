@@ -47,6 +47,7 @@ def create(
     password: str,
     *,
     username2: str = None,
+    username3: str = None,
     password2: str = None,
     token: str = None,
     encryption_key: str = None,
