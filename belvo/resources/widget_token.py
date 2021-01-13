@@ -23,6 +23,6 @@ class WidgetToken(Resource):
         }
 
         if link:
-            data.update(link=link)
+            data.update(link_id=link)
 
         return self.session.post(self.endpoint, data=data, raise_exception=raise_exception)
