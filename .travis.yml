@@ -29,5 +29,6 @@ deploy:
   on:
     tags: true
     python: "3.8"
+    branch: master
     repo: belvo-finance/belvo-python
   skip_cleanup: true
