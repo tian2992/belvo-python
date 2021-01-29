@@ -23,7 +23,7 @@ from pprint import pprint
 from belvo.client import Client
 
 # Login to Belvo API
-client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.co")
+client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.com")
 
 # Register a link 
 link = client.Links.create(

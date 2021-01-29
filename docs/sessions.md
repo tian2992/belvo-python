@@ -6,7 +6,7 @@ In order to use Belvo API, you will have to login into a new session by using
 a _secret key_.
 
 Secret keys are generated from the Belvo API dashboard. For more information, please visit 
-[our Developers portal](https://developers.belvo.co/docs/get-your-belvo-api-keys)
+[our Developers portal](https://developers.belvo.com/docs/get-your-belvo-api-keys)
 
 ### Method
 
@@ -35,13 +35,13 @@ from belvo.client import Client
 my_client = Client(
     "your-secret-key-id", 
     "your-secret-key-password", 
-    "https://api.belvo.co"
+    "https://api.belvo.com"
 )
 
 
 # Creating a client that takes url from the environment.
 # We assume that you have set BELVO_API_URL before 
-# (e.g. export BELVO_API_URL=https://sandbox.belvo.co
+# (e.g. export BELVO_API_URL=https://sandbox.belvo.com
 my_client = Client(
     "your-secret-key-id", 
     "your-secret-key-password"

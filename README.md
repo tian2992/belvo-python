@@ -10,7 +10,7 @@
 ## 📕 Documentation
 How to use `belvo-python`: https://belvo-finance.github.io/belvo-python/
 
-If you want to check the full documentation about Belvo API: https://docs.belvo.co
+If you want to check the full documentation about Belvo API: https://docs.belvo.com
 
 Or if you want to more information about:
 * [Getting Belvo API keys](https://developers.belvo.com/docs/get-your-belvo-api-keys)
@@ -38,7 +38,7 @@ from belvo.client import Client
 from belvo.enums import AccessMode
 
 # Login to Belvo API
-client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.co")
+client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.com")
 
 # Register a link 
 link = client.Links.create(
