@@ -28,6 +28,7 @@ class Client:
         self._invoices = resources.Invoices(self.session)
         self._tax_returns = resources.TaxReturns(self.session)
         self._tax_status = resources.TaxStatus(self.session)
+        self._tax_compliance_status = resources.TaxComplianceStatus(self.session)
         self._statements = resources.Statements(self.session)
         self._widget_token = resources.WidgetToken(self.session)
 
@@ -66,6 +67,10 @@ class Client:
     @property
     def TaxReturns(self):
         return self._tax_returns
+
+    @property
+    def TaxComplianceStatus(self):
+        return self._tax_compliance_status
 
     @property
     def TaxStatus(self):

@@ -764,6 +764,80 @@ tax_returns = client.TaxReturns.list()
 The `.list()` method yields a `Generator`, you will have to iterate  over it or
 cast it to `List` or `Tuple`.
 
+## Tax Compliance Status
+Tax compliance status for a given `Link`
+
+### Fetching tax compliance status
+To fetch tax compliance status you will make use of the `.create()` method. The process will
+retrieve the tax compliance status from the institution. You **must** 
+provide a `Link`. 
+
+**Method:** 
+
+```python
+def create(
+    self,
+    link: str,
+    *,
+    attach_pdf: bool = False,
+    encryption_key: str = None,
+    save_data: bool = True,
+    raise_exception: bool = False,
+    **kwargs: Dict,
+) -> Union[List[Dict], Dict]:
+    ...
+```
+
+**Example:**
+```python
+# Fetch tax compliance status for a Link
+tax_copliance_status = client.TaxComplianceStatus.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c"
+)
+
+# Fetch tax compliance status for a Link that was created with a custom encryption key and retrieve its pdf
+tax_compliance_status = client.TaxComplianceStatus.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    encryption_key="your-encryption-key",
+    attach_pdf=True
+)
+```
+
+### Deleting tax compliance status
+A `TaxComplianceStatus` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(tax_status: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.TaxComplianceStatus.delete("b92935e6-fb9a-4c2f-9d7c-3e42165421d6")
+
+```
+
+### List
+**Method:**
+```python
+def list(**filters) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all tax compliance status
+tax_compliance_status = client.TaxComplianceStatus.list()
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or
+cast it to `List` or `Tuple`.
+
+
 ## Tax Status
 Tax situation for a given `Link`
 
