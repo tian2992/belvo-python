@@ -14,7 +14,7 @@ class WidgetToken(Resource):
         raise_exception: bool = False,
     ):
         if scopes is None:
-            scopes = "read_institutions,write_links,read_links,delete_links"
+            scopes = "read_institutions,write_links,read_links"
 
         data = {
             "id": self.session._secret_key_id,

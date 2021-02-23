@@ -13,7 +13,7 @@ def test_access_token_create(api_session):
         data={
             "id": "monty",
             "password": "python",
-            "scopes": "read_institutions,write_links,read_links,delete_links",
+            "scopes": "read_institutions,write_links,read_links",
         },
         raise_exception=False,
     )
