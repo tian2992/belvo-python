@@ -81,7 +81,7 @@ class Links(Resource):
         )
 
     def token(
-        self, link: str, scopes: str, *, raise_exception: bool = False
+        self, link: str, scopes: str, *, widget: dict = None, raise_exception: bool = False
     ) -> Union[List[Dict], Dict]:
         from belvo.resources import WidgetToken
 
@@ -92,4 +92,6 @@ class Links(Resource):
         )
 
         token = WidgetToken(self.session)
-        return token.create(scopes=scopes, link=link, raise_exception=raise_exception)
+        return token.create(
+            scopes=scopes, link=link, widget=widget, raise_exception=raise_exception
+        )
