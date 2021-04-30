@@ -7,7 +7,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Pull Request Process
 
-1. Our `Makefile` includes rules to help you running tests and check and fix linting issues.
+1. Our `Makefile` includes rules to help you to run tests and check and fix linting issues.
 2. Be sure that all tests are passing.
 3. Once everything is working, please create a new pull request and wait for one reviewer to approve your pull request.
 4. When everything is ready and approved you will be able to merge your pull request.

@@ -89,7 +89,7 @@ Please keep in mind that by using your own `encryption_key` when creating a `Lin
 will need to send it in **ALL** subsequent requests. 
 
 Belvo API doesn't store passwords in plain text, neither does store custom secrets. 
-Keep your custom `encryption_key` safe. Don't loose it.
+Keep your custom `encryption_key` safe. Don't lose it.
 
 ### Deleting links
 A `Link` is persisted into our database when you register it, if you want you can 
@@ -951,7 +951,7 @@ statements = client.Statements.create(
 statements = client.Statements.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "161a5e4d-67f5-4760-ae4f-c1fe85cb20ca",
-    "20192,
+    "2019",
     "12",
     encryption_key="your-encryption-key"
 )
