@@ -17,6 +17,7 @@ def test_statements_create(api_session):
             "month": "12",
             "attach_pdf": True,
             "save_data": True,
+            "encryption_key": "fake-key",
         },
         raise_exception=False,
     )
