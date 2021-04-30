@@ -24,10 +24,10 @@ def test_statements_create(api_session):
 
 
 def test_statements_resume(api_session):
-    statements = resources.Statements(api_session)
+    statements = resources.Statements(api_session, encryption_key="fake-key")
     statements.session.patch = MagicMock()
     statements.resume(
-        "fake-session", "fake-token", link="fake-link-uuid", account="fake-account-uuid", encryption_key="fake-key"
+        "fake-session", "fake-token", link="fake-link-uuid", account="fake-account-uuid"
     )
 
     statements.session.patch.assert_called_with(
@@ -36,8 +36,7 @@ def test_statements_resume(api_session):
             "session": "fake-session",
             "token": "fake-token",
             "link": "fake-link-uuid",
-            "account": "fake-account-uuid",
-            "encryption_key": "fake-key",
+            "account": "fake-account-uuid"
         },
         raise_exception=False,
     )
