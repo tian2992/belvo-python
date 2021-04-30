@@ -6,7 +6,7 @@ from belvo import resources
 def test_statements_create(api_session):
     statements = resources.Statements(api_session)
     statements.session.post = MagicMock()
-    statements.create("fake-link-uuid", "fake-account-uuid", "2019", "12", attach_pdf=True)
+    statements.create("fake-link-uuid", "fake-account-uuid", "2019", "12", encryption_key="fake-key", attach_pdf=True)
 
     statements.session.post.assert_called_with(
         "/api/statements/",
@@ -27,7 +27,7 @@ def test_statements_resume(api_session):
     statements = resources.Statements(api_session)
     statements.session.patch = MagicMock()
     statements.resume(
-        "fake-session", "fake-token", link="fake-link-uuid", account="fake-account-uuid"
+        "fake-session", "fake-token", link="fake-link-uuid", account="fake-account-uuid", encryption_key="fake-key"
     )
 
     statements.session.patch.assert_called_with(
@@ -37,6 +37,7 @@ def test_statements_resume(api_session):
             "token": "fake-token",
             "link": "fake-link-uuid",
             "account": "fake-account-uuid",
+            "encryption_key": "fake-key",
         },
         raise_exception=False,
     )
