@@ -193,3 +193,23 @@ def test_links_update_password(api_session):
         },
         raise_exception=False,
     )
+
+
+@pytest.mark.parametrize("external_id", ["abc", "test@mail.com"])
+def test_links_create_with_external_id(api_session, external_id):
+    link = resources.Links(api_session)
+    link.session.post = MagicMock()
+
+    link.create("fake-bank", "fake-user", "fake-password", external_id=external_id)
+
+    link.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "password": "fake-password",
+            "external_id": external_id,
+            "save_data": True,
+        },
+        raise_exception=False,
+    )

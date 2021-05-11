@@ -26,6 +26,7 @@ class Links(Resource):
         username_type: str = None,
         certificate: str = None,
         private_key: str = None,
+        external_id: str = None,
     ) -> Union[List[Dict], Dict]:
 
         data = {
@@ -42,6 +43,7 @@ class Links(Resource):
             "username_type": username_type,
             "certificate": certificate and read_file_to_b64(certificate),
             "private_key": private_key and read_file_to_b64(private_key),
+            "external_id": external_id,
         }
 
         clean_data = {key: value for key, value in data.items() if value}
