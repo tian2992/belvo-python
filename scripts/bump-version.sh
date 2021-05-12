@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-if ! [ -x "$(command -v bumpversion)" ]; then
-  echo -e "bumpversion is required, to install it run 'pip install bumpversion'. Aborting." >&2
+if ! [ -x "$(command -v bump2version)" ]; then
+  echo -e "bump2version is required, to install it run 'pip install bump2version'. Aborting." >&2
   exit 1
 fi
 
-bumpversion "$1"
+bump2version "$1"
