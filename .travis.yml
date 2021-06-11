@@ -4,7 +4,9 @@ dist: xenial
 
 branches:
   only:
-    - master
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
 
 python:
   - "3.6"
