@@ -522,6 +522,50 @@ incomes = client.Incomes.create(
 )
 ```
 
+### Deleting incomes
+An `income` is persisted into our database after you fetch it, if you want you 
+can delete it at any time.
+
+**Method:**
+```python
+def delete(income: str) -> bool:
+    ...
+```
+
+**Example:**
+```python
+client.Incomes.delete("e29e8def-1959-4cb8-892d-d3bf65a5d9f3")
+
+```
+
+### List and filtering
+In order to make easier to find an `Income` (or many of them), it is possible to 
+filter the results.
+
+If not filters are provided, you will get all `incomes` that you have registered.
+
+**Method:**
+```python
+def list(**kwargs) -> Generator:
+    ...
+```
+
+**Example:**
+```python
+# Retrieve all incomes (no filter given)
+incomes = client.incomes.list()
+
+# Retrieve incomes for a specific account
+incomes = client.incomes.list(
+    account="161a5e4d-67f5-4760-ae4f-c1fe85cb20ca"
+)
+```
+
+**:warning: Warning:**
+
+The `.list()` method yields a `Generator`, you will have to iterate  over it or cast it to `List` or `Tuple`.
+
+
 
 ## Owners
 Personal information available from an account owner.
