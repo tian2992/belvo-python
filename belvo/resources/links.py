@@ -97,3 +97,11 @@ class Links(Resource):
         return token.create(
             scopes=scopes, link=link, widget=widget, raise_exception=raise_exception
         )
+
+    def patch(
+        self, link: str, *, access_mode: Optional[AccessMode] = None, raise_exception: bool = False
+    ) -> Union[List[Dict], Dict]:
+        data = {"access_mode": access_mode and access_mode.value}
+        return self.session.patch(
+            f"{self.endpoint}{link}/", data=data, raise_exception=raise_exception
+        )

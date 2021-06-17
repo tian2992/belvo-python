@@ -213,3 +213,16 @@ def test_links_create_with_external_id(api_session, external_id):
         },
         raise_exception=False,
     )
+
+
+def test_links_patch_can_set_access_mode(api_session):
+    link = resources.Links(api_session)
+    link.session.patch = MagicMock()
+
+    link.patch("fake-link", access_mode=AccessMode.SINGLE)
+
+    link.session.patch.assert_called_with(
+        "/api/links/fake-link/",
+        data={"access_mode": AccessMode.SINGLE.value},
+        raise_exception=False,
+    )
