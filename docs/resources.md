@@ -751,6 +751,8 @@ def create(
     attach_pdf: bool = False,
     encryption_key: str = None,
     save_data: bool = True,
+    type_: Optional[TaxReturnType] = None
+
     **kwargs: Dict,
 ) -> Union[List[Dict], Dict]:
     ...
@@ -763,6 +765,16 @@ tax_returns = client.TaxReturns.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019",
     "2019"
+)
+
+
+# Fetch tax returns by date_range
+tax_returns = client.TaxReturns.create(
+    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
+    "2019-01-01",
+    "2019-01-23",
+    type_=TaxReturnType.MONTHLY,
+
 )
 
 # Fetch tax returns for a Link that was created with a custom encryption key

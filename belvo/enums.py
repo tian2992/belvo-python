@@ -5,3 +5,9 @@ from enum import Enum, unique
 class AccessMode(Enum):
     SINGLE = "single"
     RECURRENT = "recurrent"
+
+
+@unique
+class TaxReturnType(Enum):
+    YEARLY = "yearly"
+    MONTHLY = "monthly"

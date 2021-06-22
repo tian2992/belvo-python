@@ -1,6 +1,7 @@
 from datetime import date
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
+from belvo.enums import TaxReturnType
 from belvo.resources.base import Resource
 
 
@@ -17,18 +18,19 @@ class TaxReturns(Resource):
         encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
+        type_: Optional[TaxReturnType] = None,
         **kwargs: Dict,
     ) -> Union[List[Dict], Dict]:
 
-        year_to = year_to or str(date.today().year)
+        type_ = type_ if type_ else TaxReturnType.YEARLY
 
-        data = {
-            "link": link,
-            "year_from": year_from,
-            "year_to": year_to,
-            "attach_pdf": attach_pdf,
-            "save_data": save_data,
-        }
+        data = {"link": link, "attach_pdf": attach_pdf, "save_data": save_data, "type": type_.value}
+
+        if data["type"] == "yearly":
+            year_to = year_to or str(date.today().year)
+            data.update(year_to=year_to, year_from=year_from)
+        else:
+            data.update(date_to=year_to, date_from=year_from)
 
         if encryption_key:
             data.update(encryption_key=encryption_key)
