@@ -29,7 +29,11 @@ def test_tax_returns_create_with_dates(api_session):
     tax_returns = resources.TaxReturns(api_session)
     tax_returns.session.post = MagicMock()
     tax_returns.create(
-        "fake-link-uuid", "2019-01-01", "2019-01-02", attach_pdf=True, type_=TaxReturnType.MONTHLY
+        "fake-link-uuid",
+        date_from="2019-01-01",
+        date_to="2019-01-02",
+        attach_pdf=True,
+        type_=TaxReturnType.MONTHLY,
     )
 
     tax_returns.session.post.assert_called_with(
