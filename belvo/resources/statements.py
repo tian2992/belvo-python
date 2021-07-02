@@ -14,7 +14,6 @@ class Statements(Resource):
         month: str,
         *,
         attach_pdf: bool = False,
-        encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
         **kwargs: Dict,
@@ -28,9 +27,6 @@ class Statements(Resource):
             "attach_pdf": attach_pdf,
             "save_data": save_data,
         }
-
-        if encryption_key:
-            data.update(encryption_key=encryption_key)
 
         return self.session.post(
             self.endpoint, data=data, raise_exception=raise_exception, **kwargs

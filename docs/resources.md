@@ -50,7 +50,6 @@ def create(
     username3: str = None,
     password2: str = None,
     token: str = None,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     access_mode: AccessMode = None,
@@ -69,9 +68,6 @@ link = client.Links.create("banamex", "johndoe", "a-password")
 # Link that requires a MFA token
 link = client.Links.create("bancomer", "johndoe", "a-password", token="37038919")
 
-# Link with custom encryption key
-link = client.Links.create("santander", "johndoe", "a-password", encryption_key="your-secret")
-
 # Creating a recurrent link
 from belvo.enums import AccessMode
 link = client.Links.create("banamex", "johndoe", "a-password", access_mode=AccessMode.RECURRENT)
@@ -82,14 +78,6 @@ link = client.Links.create("banamex", "johndoe", "a-password", username_type="00
 # Creating a Link with a certificate and private_key
 link = client.Links.create("sat_mx_fiscal", "johndoe", "a-password", certificate="/path/to/cert", private_key="/path/to/key")
 ```
-
-**:warning: Warning:**
-
-Please keep in mind that by using your own `encryption_key` when creating a `Link`, you
-will need to send it in **ALL** subsequent requests. 
-
-Belvo API doesn't store passwords in plain text, neither does store custom secrets. 
-Keep your custom `encryption_key` safe. Don't lose it.
 
 ### Deleting links
 A `Link` is persisted into our database when you register it, if you want you can 
@@ -156,7 +144,6 @@ def update(
     password: str = None,
     password2: str = None,
     token: str = None,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     username_type: str = None,
@@ -201,7 +188,7 @@ will be updated.
 
 ```python
 def create(
-    self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+    self, link: str, *, token: str = None, **kwargs: str
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -210,12 +197,6 @@ def create(
 ```python
 # Fetch accounts for a Link
 accounts = client.Accounts.create("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c")
-
-# Fetch accounts for a Link that was created with a custom encryption key
-accounts = client.Accounts.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    encryption_key="your-encryption-key"
-)
 
 # Fetch accounts for a Link with and timeout after 15 seconds
 accounts = client.Accounts.create(
@@ -300,7 +281,6 @@ def create(
     date_to: str = None,
     account: str = None,
     token: str = None,
-    encryption_key: str = None,
     **kwargs: str
 ) -> Union[List[Dict], Dict]:
     ...
@@ -313,14 +293,6 @@ transactions = client.Transactions.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019-07-01",
     date_to="2019-07-31"
-)
-
-# Fetch transactions for a Link that was created with a custom encryption key
-transactions = client.Transactions.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    "2019-07-01",
-    date_to="2019-07-31",
-    encryption_key="your-encryption-key"
 )
 
 # Fetch transactions for a Link with timeout after 15 seconds
@@ -404,7 +376,6 @@ def create(
     date_to: str = None,
     account: str = None,
     token: str = None,
-    encryption_key: str = None,
     **kwargs: str
 ) -> Union[List[Dict], Dict]:
     ...
@@ -417,14 +388,6 @@ balances = client.Balances.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
     "2019-07-01",
     date_to="2019-07-31"
-)
-
-# Fetch balances for a Link that was created with a custom encryption key
-balances = client.Balances.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    "2019-07-01",
-    date_to="2019-07-31",
-    encryption_key="your-encryption-key"
 )
 
 # Fetch balances for a Link with timeout after 15 seconds
@@ -497,7 +460,6 @@ def create(
     link: str,
     *,
     token: str = None,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     **kwargs: Dict,
@@ -508,12 +470,6 @@ def create(
 ```python
 # Fetch incomes for a Link
 incomes = client.Incomes.create("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c")
-
-# Fetch incomes for a Link that was created with a custom encryption key
-incomes = client.Incomes.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    encryption_key="your-encryption-key"
-)
 
 # Fetch incomes for a Link with and timeout after 15 seconds
 incomes = client.Incomes.create(
@@ -579,7 +535,7 @@ provide a `Link`.
 
 ```python
 def create(
-    self, link: str, *, token: str = None, encryption_key: str = None, **kwargs: str
+    self, link: str, *, token: str = None, **kwargs: str
 ) -> Union[List[Dict], Dict]:
     ...
 ```
@@ -588,12 +544,6 @@ def create(
 ```python
 # Fetch owners for a Link
 owners = client.Owners.create("b91835f5-6f83-4d9b-a0ad-a5a249f18b7c")
-
-# Fetch owners for a Link that was created with a custom encryption key
-owners = client.Owners.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    encryption_key="your-encryption-key"
-)
 
 # Fetch owners for a Link with and timeout after 15 seconds
 owners = client.Owners.create(
@@ -669,7 +619,6 @@ def create(
     type_: str,
     *,
     attach_xml: bool = False,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     **kwargs: Dict,
@@ -685,15 +634,6 @@ invoices = client.Invoices.create(
     "2019-07-01",
     "2019-07-31",
     "INFLOW"
-)
-
-# Fetch invoices for a Link that was created with a custom encryption key
-invoices = client.Invoices.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    "2019-07-01",
-    "2019-07-31",
-    "INFLOW",
-    encryption_key="your-encryption-key"
 )
 ```
 
@@ -749,7 +689,6 @@ def create(
     year_to: str,
     *,
     attach_pdf: bool = False,
-    encryption_key: str = None,
     save_data: bool = True,
     type_: Optional[TaxReturnType] = None
 
@@ -775,14 +714,6 @@ tax_returns = client.TaxReturns.create(
     "2019-01-23",
     type_=TaxReturnType.MONTHLY,
 
-)
-
-# Fetch tax returns for a Link that was created with a custom encryption key
-tax_returns = client.TaxReturns.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    "2019",
-    "2019",
-    encryption_key="your-encryption-key"
 )
 ```
 
@@ -836,7 +767,6 @@ def create(
     link: str,
     *,
     attach_pdf: bool = False,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     **kwargs: Dict,
@@ -851,10 +781,9 @@ tax_copliance_status = client.TaxComplianceStatus.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c"
 )
 
-# Fetch tax compliance status for a Link that was created with a custom encryption key and retrieve its pdf
+# Fetch tax compliance status for a Link and retrieve its pdf
 tax_compliance_status = client.TaxComplianceStatus.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    encryption_key="your-encryption-key",
     attach_pdf=True
 )
 ```
@@ -910,7 +839,6 @@ def create(
     link: str,
     *,
     attach_pdf: bool = False,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     **kwargs: Dict,
@@ -925,10 +853,9 @@ tax_status = client.TaxStatus.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c"
 )
 
-# Fetch tax status for a Link that was created with a custom encryption key and retrieve it's pdf
+# Fetch tax status for a Link and retrieve it's pdf
 tax_status = client.TaxReturns.create(
     "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    encryption_key="your-encryption-key",
     attach_pdf=True
 )
 ```
@@ -986,7 +913,6 @@ def create(
     month: str,
     *,
     attach_pdf: bool = False,
-    encryption_key: str = None,
     save_data: bool = True,
     raise_exception: bool = False,
     **kwargs: Dict,
@@ -1001,15 +927,6 @@ statements = client.Statements.create(
     "161a5e4d-67f5-4760-ae4f-c1fe85cb20ca",
     "2019",
     "12"
-)
-
-# Fetch statements for a Link that was created with a custom encryption key
-statements = client.Statements.create(
-    "b91835f5-6f83-4d9b-a0ad-a5a249f18b7c",
-    "161a5e4d-67f5-4760-ae4f-c1fe85cb20ca",
-    "2019",
-    "12",
-    encryption_key="your-encryption-key"
 )
 ```
 

@@ -15,7 +15,6 @@ class TaxReturns(Resource):
         year_to: str = None,
         *,
         attach_pdf: bool = False,
-        encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
         type_: Optional[TaxReturnType] = None,
@@ -33,9 +32,6 @@ class TaxReturns(Resource):
             data.update(year_to=year_to, year_from=year_from)
         else:
             data.update(date_to=date_to, date_from=date_from)
-
-        if encryption_key:
-            data.update(encryption_key=encryption_key)
 
         return self.session.post(
             self.endpoint, data=data, raise_exception=raise_exception, **kwargs

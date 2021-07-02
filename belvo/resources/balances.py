@@ -15,7 +15,6 @@ class Balances(Resource):
         date_to: str = None,
         account: str = None,
         token: str = None,
-        encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
         **kwargs: Dict,
@@ -29,8 +28,6 @@ class Balances(Resource):
             data.update(account=account)
         if token:
             data.update(token=token)
-        if encryption_key:
-            data.update(encryption_key=encryption_key)
 
         return self.session.post(
             self.endpoint, data=data, raise_exception=raise_exception, **kwargs
