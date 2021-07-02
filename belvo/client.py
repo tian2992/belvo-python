@@ -1,6 +1,7 @@
 import os
 
 from . import resources
+from .enums import Environment
 from .exceptions import BelvoAPIException
 from .http import APISession
 
@@ -10,8 +11,9 @@ class Client:
         if url is None:
             url = os.getenv("BELVO_API_URL")
 
+        url = Environment.get_url(url)
         if not url:
-            raise BelvoAPIException("You need to provide a URL.")
+            raise BelvoAPIException("You need to provide a URL or a valid environment.")
 
         self.session = APISession(url)
 
