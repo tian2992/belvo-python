@@ -38,7 +38,7 @@ from belvo.client import Client
 from belvo.enums import AccessMode
 
 # Login to Belvo API
-client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.com")
+client = Client("my-secret-key-id", "my-secret-key", "sandbox")
 
 # Register a link 
 link = client.Links.create(
