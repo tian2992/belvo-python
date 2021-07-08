@@ -86,6 +86,39 @@ for account in client.Accounts.list(type="checking"):
     pprint(account)
 ```
 
+## Errors and exceptions
+
+By default, when you use our SDK, we automatically return the [error](https://developers.belvo.com/docs/integration-overview#error-handling). However, if you prefer to receive the exception, you need to set the `raise_exception` optional parameter to `True`.
+
+
+
+```python
+from pprint import pprint
+from belvo.client import Client
+from belvo.enums import AccessMode
+from belvo.exceptions import RequestError
+
+# Login to Belvo API
+client = Client("my-secret-key-id", "my-secret-key", "sandbox")
+
+try:
+    # Register a link
+    link = client.Links.create(
+        access_mode=AccessMode.SINGLE,
+        institution="banamex_mx_retail",
+        username="<username>",
+        password="<pass>",
+        raise_exception=True, # Set this optional paramter
+    )
+except RequestError as e:
+    # do something with the error
+    pprint(e)
+else:
+    # do something with the link
+    pprint(link)
+
+```
+
 ## 🐍 Development
 
 To release a new version of the SDK to PyPI:
