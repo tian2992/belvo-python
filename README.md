@@ -29,7 +29,10 @@ Install using `pip`:
 $ pip install belvo-python
 ```
 
-## Example
+## Usage (create link via widget)
+
+When your user successfully links their account using the [Connect Widget](https://developers.belvo.com/docs/connect-widget), your implemented callback funciton will return the `link_id` required to make further API to retrieve information.
+
 ```python
 
 from pprint import pprint
@@ -38,7 +41,34 @@ from belvo.client import Client
 from belvo.enums import AccessMode
 
 # Login to Belvo API
-client = Client("my-secret-key-id", "my-secret-key", "https://api.belvo.com")
+client = Client("your-secret-key-id", "your-secret-key", "sandbox")
+
+# Get the link_id from the result of your widget callback function
+link_id = result_from_callback_function.id
+
+# Get all accounts
+client.Accounts.create(link=link_id)
+
+# Pretty print all checking accounts
+for account in client.Accounts.list(type="checking"):
+    pprint(account)
+```
+
+
+## Usage (create link via SDK)
+
+You can also manually create the link using the SDK. However, for security purposes, we highly recommend, that you use the [Connect Widget](https://developers.belvo.com/docs/connect-widget) to create the link and follow the **Usage (create link via widget)** example.
+
+
+```python
+
+from pprint import pprint
+
+from belvo.client import Client
+from belvo.enums import AccessMode
+
+# Login to Belvo API
+client = Client("your-secret-key-id", "your-secret-key", "sandbox")
 
 # Register a link 
 link = client.Links.create(
@@ -49,11 +79,44 @@ link = client.Links.create(
 )
 
 # Get all accounts
-client.Accounts.create(link["id"])
+client.Accounts.create(link=link["id"])
 
 # Pretty print all checking accounts
 for account in client.Accounts.list(type="checking"):
     pprint(account)
+```
+
+## Errors and exceptions
+
+By default, when you use our SDK, we automatically return the [error](https://developers.belvo.com/docs/integration-overview#error-handling). However, if you prefer to receive the exception, you need to set the `raise_exception` optional parameter to `True`.
+
+
+
+```python
+from pprint import pprint
+from belvo.client import Client
+from belvo.enums import AccessMode
+from belvo.exceptions import RequestError
+
+# Login to Belvo API
+client = Client("my-secret-key-id", "my-secret-key", "sandbox")
+
+try:
+    # Register a link
+    link = client.Links.create(
+        access_mode=AccessMode.SINGLE,
+        institution="banamex_mx_retail",
+        username="<username>",
+        password="<pass>",
+        raise_exception=True, # Set this optional paramter
+    )
+except RequestError as e:
+    # do something with the error
+    pprint(e)
+else:
+    # do something with the link
+    pprint(link)
+
 ```
 
 ## 🐍 Development

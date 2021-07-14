@@ -19,13 +19,13 @@ class Links(Resource):
         username3: str = None,
         password2: str = None,
         token: str = None,
-        encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
         access_mode: Optional[AccessMode] = None,
         username_type: str = None,
         certificate: str = None,
         private_key: str = None,
+        external_id: str = None,
     ) -> Union[List[Dict], Dict]:
 
         data = {
@@ -38,10 +38,10 @@ class Links(Resource):
             "username3": username3,
             "password2": password2,
             "token": token,
-            "encryption_key": encryption_key,
             "username_type": username_type,
             "certificate": certificate and read_file_to_b64(certificate),
             "private_key": private_key and read_file_to_b64(private_key),
+            "external_id": external_id,
         }
 
         clean_data = {key: value for key, value in data.items() if value}
@@ -55,7 +55,6 @@ class Links(Resource):
         password: str = None,
         password2: str = None,
         token: str = None,
-        encryption_key: str = None,
         save_data: bool = True,
         raise_exception: bool = False,
         username_type: str = None,
@@ -68,7 +67,6 @@ class Links(Resource):
             "save_data": save_data,
             "password2": password2,
             "token": token,
-            "encryption_key": encryption_key,
             "username_type": username_type,
             "certificate": certificate and read_file_to_b64(certificate),
             "private_key": private_key and read_file_to_b64(private_key),
@@ -94,4 +92,12 @@ class Links(Resource):
         token = WidgetToken(self.session)
         return token.create(
             scopes=scopes, link=link, widget=widget, raise_exception=raise_exception
+        )
+
+    def patch(
+        self, link: str, *, access_mode: Optional[AccessMode] = None, raise_exception: bool = False
+    ) -> Union[List[Dict], Dict]:
+        data = {"access_mode": access_mode and access_mode.value}
+        return self.session.patch(
+            f"{self.endpoint}{link}/", data=data, raise_exception=raise_exception
         )

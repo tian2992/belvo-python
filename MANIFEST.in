@@ -8,6 +8,8 @@ exclude *.sh
 exclude *.yml
 exclude docs
 exclude scripts
+exclude Dangerfile
+exclude Gemfile
 recursive-include requirements *.txt
 recursive-exclude docs *.md
 recursive-exclude * __pycache__

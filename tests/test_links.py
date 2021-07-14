@@ -45,24 +45,6 @@ def test_links_create_can_set_access_mode(api_session, mode):
     )
 
 
-def test_links_create_sends_encryption_key_if_given(api_session):
-    links = resources.Links(api_session)
-    links.session.post = MagicMock()
-    links.create("fake-bank", "fake-user", "fake-password", encryption_key="fake-key")
-
-    links.session.post.assert_called_with(
-        "/api/links/",
-        data={
-            "institution": "fake-bank",
-            "username": "fake-user",
-            "password": "fake-password",
-            "save_data": True,
-            "encryption_key": "fake-key",
-        },
-        raise_exception=False,
-    )
-
-
 def test_links_create_sends_username2_if_given(api_session):
     links = resources.Links(api_session)
     links.session.post = MagicMock()
@@ -174,11 +156,7 @@ def test_links_update_password(api_session):
     link.session.put = MagicMock()
 
     link.update(
-        "fake-link-uuid",
-        password="fake-password",
-        password2="fake-pw2",
-        token="fake-token",
-        encryption_key="fake-enc-key",
+        "fake-link-uuid", password="fake-password", password2="fake-pw2", token="fake-token"
     )
 
     link.session.put.assert_called_with(
@@ -189,7 +167,39 @@ def test_links_update_password(api_session):
             "save_data": True,
             "password2": "fake-pw2",
             "token": "fake-token",
-            "encryption_key": "fake-enc-key",
         },
+        raise_exception=False,
+    )
+
+
+@pytest.mark.parametrize("external_id", ["abc", "test@mail.com"])
+def test_links_create_with_external_id(api_session, external_id):
+    link = resources.Links(api_session)
+    link.session.post = MagicMock()
+
+    link.create("fake-bank", "fake-user", "fake-password", external_id=external_id)
+
+    link.session.post.assert_called_with(
+        "/api/links/",
+        data={
+            "institution": "fake-bank",
+            "username": "fake-user",
+            "password": "fake-password",
+            "external_id": external_id,
+            "save_data": True,
+        },
+        raise_exception=False,
+    )
+
+
+def test_links_patch_can_set_access_mode(api_session):
+    link = resources.Links(api_session)
+    link.session.patch = MagicMock()
+
+    link.patch("fake-link", access_mode=AccessMode.SINGLE)
+
+    link.session.patch.assert_called_with(
+        "/api/links/fake-link/",
+        data={"access_mode": AccessMode.SINGLE.value},
         raise_exception=False,
     )

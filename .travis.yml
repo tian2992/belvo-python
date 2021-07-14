@@ -2,10 +2,17 @@ language: python
 
 dist: xenial
 
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
+
 python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
 
 cache:
   pip: true
